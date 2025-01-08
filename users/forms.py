@@ -1,20 +1,26 @@
 from django import forms
 
-class RegisterForm(forms.Form):
-    username = forms.CharField(
-        max_length=20,
-        required=True,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'username',
-        })
-    )
+from users.models import User, Client
 
-    password = forms.CharField(
-        min_length=5,
-        required=True,
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-control',
-            'type': 'password',
-        })
-    )
+class ClientRegisterForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['email', 'password', 'first_name', 'last_name']
+
+    def save(self, commit=True):
+        user = super().save(commit)
+        user.set_password(self.cleaned_data['password'])
+        client = Client.objects.create(user=user)
+        client.save()
+        return client
+
+class ClientLoginForm(forms.ModelForm):
+    class Meta:
+        fields = ['email', 'password', 'first_name', 'last_name']
+
+    def save(self, commit=True):
+        user = super().save(commit)
+        user.set_password(self.cleaned_data['password'])
+        client = Client.objects.create(user=user)
+        client.save()
+        return client

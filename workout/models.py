@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import Client, Coach
+from users.models import Coach, Client
 
 class Workout(models.Model):
     name = models.CharField(max_length=100)

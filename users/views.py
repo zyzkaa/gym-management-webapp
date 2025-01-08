@@ -3,33 +3,38 @@ from django.http import HttpResponse
 from users.models import User
 from django.contrib.auth.hashers import make_password
 
-def get_username(request, user_id):
-    return HttpResponse("ur looking at user of id: " + str(user_id))
-
-from forms import RegisterForm
+from users.forms import ClientRegisterForm
 
 def register(request):
-    if request.method == "POST":
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = User(username=username, password=make_password(password))
-            user.save()
-            return HttpResponse("success")
-    else:
-        form = RegisterForm()
-
-    return render(request, 'users/register.html', {form: form})
-
-
-
-def get_users(request):
-    users = User.objects.all()
     context = {
-        'users': users
+        'title' : 'Register'
     }
-    return render(request, 'users/index.html', context)
+    form = ClientRegisterForm()
+    if request.method == 'POST':
+        form = ClientRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            form = ClientRegisterForm()
+        else:
+            error = form.errors
+            return HttpResponse('error' + str(error))
+
+    context['form'] = form
+    return render(request, 'users/register.html', context)
+
+# def register(request):
+#     if request.method == "POST":
+#         form = ClientRegisterForm(request.POST)
+#         if form.is_valid():
+#             username = form.cleaned_data['username']
+#             password = form.cleaned_data['password']
+#             user = User(username=username, password=make_password(password))
+#             user.save()
+#             return HttpResponse("success")
+#     else:
+#         form = ClientRegisterForm()
+#
+#     return render(request, 'users/register.html', {form: form})
 
 
 # # ...
