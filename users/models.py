@@ -1,9 +1,8 @@
-from django.contrib.admindocs.utils import ROLES
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 class User(AbstractUser):
-    pass
+    is_coach = models.BooleanField(default=False)
 
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client')

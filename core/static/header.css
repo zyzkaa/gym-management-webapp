@@ -1,0 +1,13 @@
+header{
+    width: 100%;
+    height: 20%;
+    background: #E3DBDB;
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+}
+
+body{
+    font-family: "Comic Sans MS", cursive;
+    margin: 10px;
+}

@@ -1,26 +1,34 @@
 from django import forms
+from django.contrib.auth import validators
+from django.contrib.auth.password_validation import validate_password
 
 from users.models import User, Client
 
 class ClientRegisterForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput(),
+                               validators=[validate_password])
+    username = forms.CharField(max_length=20,
+                               validators=[validators.UnicodeUsernameValidator()],
+                               error_messages={'unique': 'user with that username already exists'})
     class Meta:
         model = User
-        fields = ['email', 'password', 'first_name', 'last_name']
+        fields = ['first_name', 'last_name', 'username', 'email', 'password']
 
     def save(self, commit=True):
-        user = super().save(commit)
+        user = super().save(commit=False)
         user.set_password(self.cleaned_data['password'])
-        client = Client.objects.create(user=user)
-        client.save()
-        return client
+        if commit:
+            user.save()
+            client = Client.objects.create(user=user)
+            return client
 
-class ClientLoginForm(forms.ModelForm):
-    class Meta:
-        fields = ['email', 'password', 'first_name', 'last_name']
-
-    def save(self, commit=True):
-        user = super().save(commit)
-        user.set_password(self.cleaned_data['password'])
-        client = Client.objects.create(user=user)
-        client.save()
-        return client
+# class ClientLoginForm(forms.ModelForm):
+#     class Meta:
+#         fields = ['first_name', 'last_name', 'username', 'email', 'password']
+#
+#     def save(self, commit=True):
+#         user = super().save(commit)
+#         user.set_password(self.cleaned_data['password'])
+#         client = Client.objects.create(user=user)
+#         client.save()
+#         return client

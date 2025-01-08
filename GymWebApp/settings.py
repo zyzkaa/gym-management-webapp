@@ -14,6 +14,9 @@ from pathlib import Path
 
 # non default settings
 AUTH_USER_MODEL = 'users.User'
+LOGIN_REDIRECT_URL = '/users/login'
+LOGOUT_REDIRECT_URL = '/'
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
     'workout.apps.WorkoutConfig',
+    'core.apps.CoreConfig',
 ]
 
 MIDDLEWARE = [
@@ -120,7 +124,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

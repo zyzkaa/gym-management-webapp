@@ -1,7 +1,9 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render
 from django.http import HttpResponse
 from users.models import User
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth import login
 
 from users.forms import ClientRegisterForm
 
@@ -21,6 +23,25 @@ def register(request):
 
     context['form'] = form
     return render(request, 'users/register.html', context)
+
+def login_user(request):
+    context = {}
+    form = AuthenticationForm()
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            if not user.is_coach:
+                login(request, user)
+            return HttpResponse("oki")
+
+    context['form'] = form
+    return render(request, 'users/login.html', context)
+
+@login_required
+def profile(request):
+    return render(request, 'users/profile.html')
+
 
 # def register(request):
 #     if request.method == "POST":
