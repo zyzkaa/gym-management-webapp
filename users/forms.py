@@ -1,3 +1,5 @@
+from dataclasses import field
+
 from django import forms
 from django.contrib.auth import validators
 from django.contrib.auth.password_validation import validate_password
@@ -5,8 +7,9 @@ from django.contrib.auth.password_validation import validate_password
 from users.models import User, Client
 
 class ClientRegisterForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput(),
-                               validators=[validate_password])
+    # password = forms.CharField(widget=forms.PasswordInput(),
+    #                            validators=[validate_password])
+    password = forms.CharField(widget=forms.PasswordInput())
     username = forms.CharField(max_length=20,
                                validators=[validators.UnicodeUsernameValidator()],
                                error_messages={'unique': 'user with that username already exists'})
@@ -14,7 +17,7 @@ class ClientRegisterForm(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password', 'gender']
         widgets = {
-            'gender': forms.RadioSelect(),
+            'gender': forms.RadioSelect(attrs={'class': 'custom'}),
         }
 
     def save(self, commit=True):
@@ -22,8 +25,13 @@ class ClientRegisterForm(forms.ModelForm):
         user.set_password(self.cleaned_data['password'])
         if commit:
             user.save()
-            client = Client.objects.create(user=user, gender=self.cleaned_data['gender'])
+            client = Client.objects.create(user=user)
             return client
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        #self.fields['gender'].choices = [choice for choice in self.fields['gender'].choices if choice[0]]
 
 # class ClientLoginForm(forms.ModelForm):
 #     class Meta:
