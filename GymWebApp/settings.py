@@ -16,12 +16,16 @@ from pathlib import Path
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/users/login'
 LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/users/login'
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+import os
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
