@@ -7,16 +7,15 @@ class User(AbstractUser):
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client')
 
-    class Membership(models.TextChoices):
-        BASIC = 'b', 'basic'
-        PREMIUM = 'p', 'premium'
-        NONE = 'n', 'none'
-
-    membership_type = models.CharField(max_length=1, default=Membership.NONE, choices=Membership.choices)
-
 class Coach(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='coach')
+    user = models.OneToOneField(User, on_delete=models.PROTECT, related_name='coach')
     hourly_rate = models.FloatField()
+
+class Membership(models.Model):
+    name = models.CharField(max_length=50)
+    code = models.CharField(max_length=50)
+    price = models.FloatField()
+
 
 
 # class UserAttributes(models.Model):
