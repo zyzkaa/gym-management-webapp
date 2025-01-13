@@ -10,11 +10,19 @@ class Client(models.Model):
 class Coach(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT, related_name='coach')
     hourly_rate = models.FloatField()
+    description = models.TextField()
 
 class Membership(models.Model):
     name = models.CharField(max_length=50)
     code = models.CharField(max_length=50)
     price = models.FloatField()
+
+class Review(models.Model):
+    rating = models.IntegerField()
+
+class Payment(models.Model):
+    date = models.DateField()
+
 
 
 
