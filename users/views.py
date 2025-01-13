@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from users.models import User
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 
 # dodaj wizyty, moze jakis qr kod?
 # moze laczenie z zegarkami czy cos do treningow
@@ -36,10 +36,16 @@ def login_user(request):
             user = form.get_user()
             if not user.is_coach:
                 login(request, user)
-            return HttpResponse("oki")
+            return HttpResponseRedirect('/users/profile')
 
     context['form'] = form
     return render(request, 'users/login.html', context)
+
+def logout_user(request):
+    user = request.user
+    if user.is_authenticated:
+        logout(request)
+    return HttpResponseRedirect("home")
 
 @login_required
 def user_current_profile(request):
@@ -48,10 +54,12 @@ def user_current_profile(request):
         'username': user.username,
         'first_name': user.first_name,
         'last_name': user.last_name,
-        'profile_pic': user.profile_pic,
+        'profile_picture': user.profile_picture.url,
         'gender': user.gender,
         }
     return render(request, 'users/profile.html', context)
+
+
 
 def coach_profile(request):
     return render(request, 'users/coach_profile.html')
