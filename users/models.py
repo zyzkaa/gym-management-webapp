@@ -19,9 +19,27 @@ class Membership(models.Model):
 
 class Review(models.Model):
     rating = models.IntegerField()
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='reviews')
+    coach = models.ForeignKey(Coach, on_delete=models.CASCADE, related_name='reviews')
 
 class Payment(models.Model):
     date = models.DateField()
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='payments')
+    amount = models.FloatField()
+    method = models.CharField(max_length=50, choices=[
+        ('credit_card', 'Credit Card'),
+        ('paypal', 'PayPal'),
+        ('bank_transfer', 'Bank Transfer')
+    ])
+    status = models.CharField(
+        max_length=20,
+        choices=[
+            ('pending', 'Pending'),
+            ('completed', 'Completed'),
+            ('failed', 'Failed'),
+        ],
+        default='pending'
+    )
 
 
 

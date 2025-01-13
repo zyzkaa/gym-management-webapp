@@ -39,8 +39,16 @@ def login_user(request):
     return render(request, 'users/login.html', context)
 
 @login_required
-def profile(request):
+def user_current_profile(request):
     return render(request, 'users/profile.html')
+
+def coach_profile(request):
+    return render(request, 'users/coach_profile.html')
+
+def user_profile(request):
+    return render(request, 'users/user_profile.html')
+
+
 
 
 # def register(request):
