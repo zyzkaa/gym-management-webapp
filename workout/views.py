@@ -7,7 +7,7 @@ def is_coach(user):
     return user.is_coach
 
 @login_required
-@user_passes_test(is_coach, login_url='')
+@user_passes_test(is_coach, login_url='/')
 def add_workout(request):
     context = {}
     form = AddWorkoutForm(request.POST or None)
