@@ -5,6 +5,9 @@ from django.http import HttpResponse
 from users.models import User
 from django.contrib.auth import login
 
+# dodaj wizyty, moze jakis qr kod?
+# moze laczenie z zegarkami czy cos do treningow
+
 from users.forms import ClientRegisterForm
 
 def register(request):
@@ -40,7 +43,15 @@ def login_user(request):
 
 @login_required
 def user_current_profile(request):
-    return render(request, 'users/profile.html')
+    user = request.user
+    context = {
+        'username': user.username,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'profile_pic': user.profile_pic,
+        'gender': user.gender,
+        }
+    return render(request, 'users/profile.html', context)
 
 def coach_profile(request):
     return render(request, 'users/coach_profile.html')

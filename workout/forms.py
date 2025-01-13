@@ -10,5 +10,4 @@ class AddWorkoutForm(forms.Form):
         widgets = {
             'difficulty': forms.RadioSelect(),
             'day' : forms.RadioSelect(),
-
         }

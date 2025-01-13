@@ -12,14 +12,17 @@ class ClientRegisterForm(forms.ModelForm):
                                error_messages={'unique': 'user with that username already exists'})
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', 'password']
+        fields = ['first_name', 'last_name', 'username', 'email', 'password', 'gender']
+        widgets = {
+            'gender': forms.RadioSelect(),
+        }
 
     def save(self, commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data['password'])
         if commit:
             user.save()
-            client = Client.objects.create(user=user)
+            client = Client.objects.create(user=user, gender=self.cleaned_data['gender'])
             return client
 
 # class ClientLoginForm(forms.ModelForm):

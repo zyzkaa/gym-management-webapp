@@ -7,8 +7,8 @@ class Workout(models.Model):
     clients = models.ManyToManyField(Client, related_name='client_workouts')
     description = models.TextField()
     target = models.CharField(max_length=50)
-    start_time = models.TimeField()
-    end_time = models.TimeField()
+    start_time = models.TimeField(null=True)
+    end_time = models.TimeField(null=True)
     max_participans = models.IntegerField()
 
     class Difficulty(models.TextChoices):
@@ -19,6 +19,7 @@ class Workout(models.Model):
     difficulty = models.CharField(
         max_length=20,
         choices=Difficulty.choices,
+        null=True,
     )
 
     class Weekdays(models.TextChoices):
@@ -33,6 +34,7 @@ class Workout(models.Model):
     day = models.CharField(
         choices=Weekdays.choices,
         max_length=10,
+        null=True,
     )
 
     class Status(models.TextChoices):
@@ -42,6 +44,7 @@ class Workout(models.Model):
     status = models.CharField(
         choices=Status.choices,
         default=Status.ACTIVE,
+        max_length=10,
     )
 
 
@@ -62,5 +65,6 @@ class WorkoutParticipation(models.Model):
     status = models.CharField(
         choices=Status.choices,
         default=Status.SCHEDULED,
+        max_length=10,
     )
 

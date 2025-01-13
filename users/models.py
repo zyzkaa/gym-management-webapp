@@ -3,14 +3,23 @@ from django.db import models
 
 class User(AbstractUser):
     is_coach = models.BooleanField(default=False)
+    profile_picture = models.ImageField(upload_to='static/profile_pictures/', null=True, blank=True)
+    gender = models.CharField(
+        choices=[('M', 'Male'),
+                 ('F', 'Female')],
+        max_length=1)
 
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client')
+    membership = models.ForeignKey('users.Membership',
+                                   on_delete=models.PROTECT,
+                                   null=True)
 
 class Coach(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT, related_name='coach')
     hourly_rate = models.FloatField()
-    description = models.TextField()
+    description = models.TextField(null=True)
+    phone_number = models.IntegerField(null=True)
 
 class Membership(models.Model):
     name = models.CharField(max_length=50)
@@ -37,6 +46,7 @@ class Payment(models.Model):
             ('pending', 'Pending'),
             ('completed', 'Completed'),
             ('failed', 'Failed'),
+            ('scheduled', 'Scheduled'),
         ],
         default='pending'
     )
