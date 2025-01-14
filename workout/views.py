@@ -10,7 +10,7 @@ def is_coach(user):
 @user_passes_test(is_coach, login_url='/')
 def add_workout(request):
     context = {}
-    form = AddWorkoutForm(request.POST or None)
+    form = AddWorkoutForm()
     if request.method == "POST":
         form = AddWorkoutForm(request.POST)
         if form.is_valid():

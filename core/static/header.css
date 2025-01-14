@@ -38,10 +38,15 @@ header img{
     display: flex;
     align-items: center;
     justify-self: end;
+    height: 100%;
+}
+
+#login-container a{
+    height: 60%;
 }
 
 #login-container button{
-    height: 60%;
+    height: 100%;
     background: whitesmoke;
     border: 2px solid whitesmoke;
     border-radius: 10px;

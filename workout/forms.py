@@ -1,13 +1,20 @@
 from django import forms
 
+from utils import delete_null_choice
 from workout.models import Workout
 
 
-class AddWorkoutForm(forms.Form):
+
+class AddWorkoutForm(forms.ModelForm):
     class Meta:
         model = Workout
-        exclude = ('user', 'coach', 'status')
+        exclude = ('user', 'coach', 'status', 'clients')
         widgets = {
             'difficulty': forms.RadioSelect(),
             'day' : forms.RadioSelect(),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['difficulty'].choices = delete_null_choice(self.fields['difficulty'].choices)
+        self.fields['day'].choices = delete_null_choice(self.fields['day'].choices)

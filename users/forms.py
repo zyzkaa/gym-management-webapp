@@ -5,6 +5,8 @@ from django.contrib.auth import validators
 from django.contrib.auth.password_validation import validate_password
 
 from users.models import User, Client
+from utils import delete_null_choice
+
 
 class ClientRegisterForm(forms.ModelForm):
     # password = forms.CharField(widget=forms.PasswordInput(),
@@ -31,7 +33,8 @@ class ClientRegisterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        #self.fields['gender'].choices = [choice for choice in self.fields['gender'].choices if choice[0]]
+        self.fields['gender'].choices = delete_null_choice(self.fields['gender'].choices)
+        print(type(self.fields['gender'].choices))
 
 # class ClientLoginForm(forms.ModelForm):
 #     class Meta:
