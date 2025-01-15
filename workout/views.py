@@ -2,6 +2,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, user_passes_test
 from workout.forms import AddWorkoutForm
+from workout.models import Workout
+
 
 def is_coach(user):
     return user.is_coach
@@ -22,5 +24,8 @@ def add_workout(request):
     return render(request, "workout/add.html", context)
 
 def schedule(request):
-    context = {}
+    context = {
+        'workouts': Workout.objects.all(),
+        'weekdays': Workout.Weekdays.choices
+    }
     return render(request, "workout/schedule.html", context)
