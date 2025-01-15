@@ -20,3 +20,7 @@ def add_workout(request):
             return HttpResponseRedirect("/users/profile")
     context["form"] = form
     return render(request, "workout/add.html", context)
+
+def schedule(request):
+    context = {}
+    return render(request, "workout/schedule.html", context)
