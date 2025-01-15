@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body style="background-color: lightskyblue;">
+{% extends 'core/index.html' %}
+{% block content %}
     <form method="post">
         {% csrf_token %}
         {{ form }}
         <button type="submit" value="add_workout">Submit</button>
     </form>
-</body>
-</html>
+
+{% endfor %}
+{% endblock %}

@@ -1,11 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'core/index.html' %}
+{% block content %}
 <h1> schedule </h1>
+{% for day in weekdays %}
+    <div>
+        <p> {{ day.0 }}</p>
+        {% for workout in workouts %}
+            {% if workout.day == day.0 %}
 
-</body>
-</html>
+                <p>{{ workout.name }}</p>
+
+                {% if request.user.is_authenticated and not request.user.is_coach%}
+                    <button> join </button>
+                {% endif %}
+
+            {% endif %}
+
+        {% endfor %}
+    </div>
+{% endfor %}
+{% endblock %}

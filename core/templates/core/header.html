@@ -7,15 +7,20 @@
   </div>
 
   <div id="nav-container">
-    <button>trenerzy</button>
-    <button>zajecia</button>
-    <button>oferta</button>
-    <button>kontakt</button>
+    <a>trenerzy</a>
+    <a href="{% url 'workout:schedule' %}">zajecia</a>
+    <a>oferta</a>
+    <a>kontakt</a>
   </div>
 
   <div id="login-container">
-    <a href="/users/login"><button>login</button></a>
-    <a href="/users/register"><button>register</button></a>
+    {% if user.is_authenticated %}
+    <a href="{% url 'users:logout' %}">logout</a>
+    <a href="{% url 'users:profile' %}">profile</a>
+    {% else %}
+    <a href="/users/login">login</a>
+    <a href="/users/register">register</a>
+    {% endif %}
   </div>
 
 </header>
