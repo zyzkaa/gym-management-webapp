@@ -1,10 +1,10 @@
 from django.db import models
-from users.models import Coach, Client
+from users.models import Coach, Client, User
 
 class Workout(models.Model):
     name = models.CharField(max_length=100)
-    coach = models.ForeignKey(Coach, on_delete=models.CASCADE, related_name='coach_workouts')
-    clients = models.ManyToManyField(Client, related_name='client_workouts')
+    coach = models.ForeignKey(User, on_delete=models.CASCADE, related_name='coach_workouts')
+    clients = models.ManyToManyField(User, related_name='client_workouts')
     description = models.TextField()
     target = models.CharField(max_length=50)
     start_time = models.TimeField(null=True)
@@ -25,7 +25,7 @@ class Workout(models.Model):
     class Weekdays(models.TextChoices):
         MONDAY = 'monday', 'Monday'
         TUESDAY = 'tuesday', 'Tuesday'
-        WEDNESDAY = 'wednesday', 'wednesday'
+        WEDNESDAY = 'wednesday', 'Wednesday'
         THURSDAY = 'thursday', 'Thursday'
         FRIDAY = 'friday', 'Friday'
         SATURDAY = 'saturday', 'Saturday'

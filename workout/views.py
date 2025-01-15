@@ -14,7 +14,9 @@ def add_workout(request):
     if request.method == "POST":
         form = AddWorkoutForm(request.POST)
         if form.is_valid():
-            form.save()
+            workout = form.save(commit=False)
+            workout.coach = request.user
+            workout.save()
             return HttpResponseRedirect("/users/profile")
     context["form"] = form
     return render(request, "workout/add.html", context)
