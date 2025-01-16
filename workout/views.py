@@ -1,4 +1,7 @@
-from django.http import HttpResponseRedirect
+from warnings import catch_warnings
+from xml.etree.ElementTree import tostring
+
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, user_passes_test
 from workout.forms import AddWorkoutForm
@@ -29,3 +32,12 @@ def schedule(request):
         'weekdays': Workout.Weekdays.choices
     }
     return render(request, "workout/schedule.html", context)
+
+def join_workout(request):
+    workout_id = request.GET.get('workout_id')
+    try:
+        workout = Workout.objects.get(id=workout_id)
+        workout.clients.add(request.user)
+        return HttpResponse(f'joined {workout_id}')
+    except Workout.DoesNotExist:
+        return HttpResponse('no such workout')

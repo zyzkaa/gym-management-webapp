@@ -10,7 +10,7 @@
                 <p>{{ workout.name }}</p>
 
                 {% if request.user.is_authenticated and not request.user.is_coach%}
-                    <button> join </button>
+                    <a href="{% url 'workout:join_workout' %}?workout_id={{ workout.id }}"> join </a>
                 {% endif %}
 
             {% endif %}
