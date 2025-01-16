@@ -15,7 +15,7 @@ header img{
 }
 
 a:visited {
-    color: black;            /* Match the color to non-visited links */
+    color: black;
 }
 
 a:hover{
