@@ -54,7 +54,7 @@ def user_current_profile(request):
         'username': user.username,
         'first_name': user.first_name,
         'last_name': user.last_name,
-        'profile_picture': user.profile_picture.url if user.profile_picture else None,
+        'profile_picture': user.profile_picture.url,
         'gender': user.gender,
         }
     return render(request, 'users/profile.html', context)

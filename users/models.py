@@ -3,7 +3,8 @@ from django.db import models
 
 class User(AbstractUser):
     is_coach = models.BooleanField(default=False)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/',
+                                        default='profile_pictures/default.jpg')
     gender = models.CharField(
         choices=[('M', 'Male'),
                  ('F', 'Female')],
