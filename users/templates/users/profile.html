@@ -1,8 +1,11 @@
 {% extends 'core/index.html' %}
 {% block content %}
-  <h1>username {{ username }}</h1>
-  <h1>name {{ first_name }} {{ last_name}}</h1>
-  <h1>email {{ email }}</h1>
-  <img src="{{ profile_picture }}" >
-
+  <h1>username {{ user.username }}</h1>
+  <h1>name {{ user.first_name }} {{ user.last_name}}</h1>
+  <h1>email {{ user.email }}</h1>
+  <img src="{{ user.profile_picture.url }}" >
+  <h2>my workouts:</h2>
+  {% for workout in workouts %}
+<h3>{{ workout.name }}</h3>
+{% endfor %}
 {% endblock %}

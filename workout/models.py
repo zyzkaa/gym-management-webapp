@@ -4,7 +4,7 @@ from users.models import Coach, Client, User
 class Workout(models.Model):
     name = models.CharField(max_length=100)
     coach = models.ForeignKey(User, on_delete=models.CASCADE, related_name='coach_workouts')
-    clients = models.ManyToManyField(User, related_name='client_workouts')
+    client = models.ManyToManyField(User, related_name='client_workouts')
     description = models.TextField()
     target = models.CharField(max_length=50)
     start_time = models.TimeField(null=True)

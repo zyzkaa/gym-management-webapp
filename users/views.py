@@ -9,6 +9,8 @@ from django.contrib.auth import login, logout
 # moze laczenie z zegarkami czy cos do treningow
 
 from users.forms import ClientRegisterForm
+from workout.models import Workout
+
 
 def register(request):
     context = {
@@ -50,12 +52,10 @@ def logout_user(request):
 @login_required
 def user_current_profile(request):
     user = request.user
+    workouts = Workout.objects.filter(client=user)
     context = {
-        'username': user.username,
-        'first_name': user.first_name,
-        'last_name': user.last_name,
-        'profile_picture': user.profile_picture.url,
-        'gender': user.gender,
+        'user': user,
+        'workouts': workouts,
         }
     return render(request, 'users/profile.html', context)
 
