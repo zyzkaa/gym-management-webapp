@@ -1,16 +1,18 @@
+from lib2to3.fixes.fix_input import context
 from time import strftime
+from unicodedata import category
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from users.models import User, Visit, Membership
+from users.models import User, Visit, Membership, Coach
 from django.contrib.auth import login, logout
 
 # dodaj wizyty, moze jakis qr kod?
 # moze laczenie z zegarkami czy cos do treningow
 
-from users.forms import ClientRegisterForm
+from users.forms import ClientRegisterForm, PaymentForm
 from workout.models import Workout
 
 
@@ -22,8 +24,11 @@ def register(request):
     if request.method == 'POST':
         form = ClientRegisterForm(request.POST)
         if form.is_valid():
+            username = form.cleaned_data.get('username')
             form.save()
-            form = ClientRegisterForm()
+            user = User.objects.get(username=username)
+            login(request, user)
+            return redirect('/users/memberships')
         else:
             error = form.errors
             return HttpResponse('error' + str(error))
@@ -85,7 +90,22 @@ def show_memberships(request):
     context = {
         'memberships': memberships,
     }
-    return render(request, 'users/membership.html', context)
+    return render(request, 'users/memberships.html', context)
+
+def payment(request):
+    form = PaymentForm()
+    context = {
+        'form': form,
+        'membership': membership
+    }
+    return render(request, 'users/payment.html', context)
+
+def show_coaches(request):
+    coaches = User.objects.filter(is_coach=True)
+    context = {
+        'coaches': coaches,
+    }
+    return render(request, 'users/coaches.html', context)
 
 
 # def register(request):

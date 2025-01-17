@@ -6,8 +6,7 @@
         <p> {{ day.0 }}</p>
         {% for workout in workouts %}
             {% if workout.day == day.0 %}
-            <p>{{workout.max_participants}}</p>
-            <p>{{workout.client.all|length}}</p>
+            <p>{{workout.client.all|length}}/{{workout.max_participants}}</p>
                 <p>{{ workout.name }}</p>
 
                 {% if request.user.is_authenticated and not request.user.is_coach%}
