@@ -1,6 +1,16 @@
 {% extends 'core/index.html' %}
 {% block content %}
 
+{% for coach in coaches %}
 
+<div>
+    <p>{{coach.first_name}}</p>
+    <p>{{coach.last_name}}</p>
+    <p>{{coach.email}}</p>
+    <img alt="coach_profile_picture" src="{{coach.profile_picture.url}}">
+    <p>{{coach.coach.description}}</p>
+</div>
+
+{% endfor %}
 
 {% endblock %}
