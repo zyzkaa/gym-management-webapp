@@ -11,5 +11,5 @@ urlpatterns = [
     path("add_visit/<int:user_id>/", views.add_visit, name="add_visit"),
     path("memberships/", views.show_memberships, name="membership"),
     path("coaches/", views.show_coaches, name="coaches"),
-    path("payment/", views.payment, name="payment"),
+    path("payment_<int:membership_id>/", views.payment, name="payment"),
 ]

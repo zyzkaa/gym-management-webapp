@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth import validators
 from django.contrib.auth.password_validation import validate_password
 
-from users.models import User, Client
+from users.models import User, Client, Payment
 from utils import delete_null_choice
 
 
@@ -38,7 +38,15 @@ class ClientRegisterForm(forms.ModelForm):
 
 class PaymentForm(forms.ModelForm):
     class Meta:
-        fields = ['1', '2', '3']
+        model = Payment
+        fields = ['method']
+        widgets = {
+            'method': forms.RadioSelect(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['method'].choices = delete_null_choice(self.fields['method'].choices)
 
 # class ClientLoginForm(forms.ModelForm):
 #     class Meta:

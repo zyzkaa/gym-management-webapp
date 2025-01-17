@@ -4,7 +4,7 @@ from unicodedata import category
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from users.models import User, Visit, Membership, Coach
 from django.contrib.auth import login, logout
@@ -40,7 +40,7 @@ def login_user(request):
     context = {}
     form = AuthenticationForm()
     if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
+      #  form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
             if not user.is_coach:
@@ -92,13 +92,19 @@ def show_memberships(request):
     }
     return render(request, 'users/memberships.html', context)
 
-def payment(request):
+def payment(request, membership_id):
     form = PaymentForm()
-    context = {
-        'form': form,
-        'membership': membership
-    }
-    return render(request, 'users/payment.html', context)
+    if request.method == 'POST':
+        form = PaymentForm(request.POST)
+    try:
+        membership = Membership.objects.filter(pk=membership_id).get()
+        context = {
+            'form': form,
+            'membership': membership,
+        }
+        return render(request, 'users/payment.html', context)
+    except Membership.DoesNotExist:
+        return HttpResponse('no such membership')
 
 def show_coaches(request):
     coaches = User.objects.filter(is_coach=True)
