@@ -41,3 +41,16 @@ def join_workout(request):
         return HttpResponse(f'joined {workout_id}')
     except Workout.DoesNotExist:
         return HttpResponse('no such workout')
+
+def leave_workout(request):
+    workout_id = request.GET.get('workout_id')
+    try:
+        workout = Workout.objects.get(id=workout_id)
+        workout.client.remove(request.user)
+        return HttpResponse(f'left {workout_id}')
+    except Workout.DoesNotExist:
+        return HttpResponse('no such workout')
+
+def log_visit(request):
+    return HttpResponse('ok')
+

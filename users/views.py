@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from users.models import User
 from django.contrib.auth import login, logout
@@ -47,7 +47,7 @@ def logout_user(request):
     user = request.user
     if user.is_authenticated:
         logout(request)
-    return HttpResponseRedirect("home")
+    return redirect("/")
 
 @login_required
 def user_current_profile(request):

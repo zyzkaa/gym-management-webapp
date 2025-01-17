@@ -8,7 +8,7 @@ from workout.models import Workout
 class AddWorkoutForm(forms.ModelForm):
     class Meta:
         model = Workout
-        exclude = ('user', 'coach', 'status', 'clients')
+        exclude = ('user', 'coach', 'status', 'client')
         widgets = {
             'difficulty': forms.RadioSelect(),
             'day' : forms.RadioSelect(),

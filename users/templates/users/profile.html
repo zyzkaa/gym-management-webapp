@@ -3,9 +3,13 @@
   <h1>username {{ user.username }}</h1>
   <h1>name {{ user.first_name }} {{ user.last_name}}</h1>
   <h1>email {{ user.email }}</h1>
-  <img src="{{ user.profile_picture.url }}" >
+  <img alt="profile_picture" src="{{ user.profile_picture.url }}" >
   <h2>my workouts:</h2>
+
   {% for workout in workouts %}
-<h3>{{ workout.name }}</h3>
-{% endfor %}
+  <h3>{{ workout.name }}</h3>
+  <a href="{% url 'workout:leave_workout'%}?workout_id={{workout.id}}">leave</a>
+  {% endfor %}
+
+
 {% endblock %}

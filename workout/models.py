@@ -68,3 +68,8 @@ class WorkoutParticipation(models.Model):
         max_length=10,
     )
 
+class Visit(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    date = models.DateField()
+    enter_time = models.TimeField()
+
