@@ -36,6 +36,10 @@ class ClientRegisterForm(forms.ModelForm):
         self.fields['gender'].choices = delete_null_choice(self.fields['gender'].choices)
         print(type(self.fields['gender'].choices))
 
+class PaymentForm(forms.ModelForm):
+    class Meta:
+        fields = ['1', '2', '3']
+
 # class ClientLoginForm(forms.ModelForm):
 #     class Meta:
 #         fields = ['first_name', 'last_name', 'username', 'email', 'password']
