@@ -37,8 +37,11 @@ def join_workout(request):
     workout_id = request.GET.get('workout_id')
     try:
         workout = Workout.objects.get(id=workout_id)
-        workout.client.add(request.user)
-        return HttpResponse(f'joined {workout_id}')
+        clients_count = workout.client.all().count()
+        if workout.max_participants > clients_count: # test this!!
+            workout.client.add(request.user)
+            return HttpResponse(f'joined {workout_id}')
+        return HttpResponse(f'max participants already')
     except Workout.DoesNotExist:
         return HttpResponse('no such workout')
 

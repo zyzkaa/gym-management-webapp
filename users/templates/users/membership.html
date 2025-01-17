@@ -1,0 +1,19 @@
+{% extends 'core/index.html' %}
+{% block content %}
+
+<h1>memberships</h1>
+
+{% for membership in memberships %}
+<div>
+    <p>{{membership.name}}</p>
+    <p>{{membership.price}}</p>
+    {% if user.is_authenticated %}
+        {% if request.user.client.membership.id != membership.id %}
+        <a>{% if request.user.client.membership is null%}get{% else %}change{%endif%}</a>
+        {% endif %}
+    {% endif %}
+</div>
+{% endfor %}
+
+{% endblock %}
+

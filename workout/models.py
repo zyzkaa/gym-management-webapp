@@ -9,7 +9,7 @@ class Workout(models.Model):
     target = models.CharField(max_length=50)
     start_time = models.TimeField(null=True)
     end_time = models.TimeField(null=True)
-    max_participans = models.IntegerField()
+    max_participants = models.IntegerField()
 
     class Difficulty(models.TextChoices):
         BEGINNER = 'beginner', 'Beginner'
@@ -67,9 +67,3 @@ class WorkoutParticipation(models.Model):
         default=Status.SCHEDULED,
         max_length=10,
     )
-
-class Visit(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    date = models.DateField()
-    enter_time = models.TimeField()
-

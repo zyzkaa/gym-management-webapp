@@ -1,8 +1,10 @@
+from time import strftime
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from users.models import User
+from users.models import User, Visit, Membership
 from django.contrib.auth import login, logout
 
 # dodaj wizyty, moze jakis qr kod?
@@ -67,7 +69,23 @@ def coach_profile(request):
 def user_profile(request):
     return render(request, 'users/user_profile.html')
 
+from datetime import date, datetime
+def add_visit(request, user_id):
+    #user_id = request.user_id
+    try:
+        user = User.objects.get(pk=user_id)
+        visit = Visit.objects.create(client=user, date=date.today(), enter_time=datetime.now().strftime("%H:%M:%S"))
+        visit.save()
+        return HttpResponse('ok')
+    except User.DoesNotExist:
+        return HttpResponse('no such user')
 
+def show_memberships(request):
+    memberships = Membership.objects.all()
+    context = {
+        'memberships': memberships,
+    }
+    return render(request, 'users/membership.html', context)
 
 
 # def register(request):

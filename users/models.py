@@ -52,7 +52,10 @@ class Payment(models.Model):
         default='pending'
     )
 
-
+class Visit(models.Model):
+    client = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField()
+    enter_time = models.TimeField()
 
 
 # class UserAttributes(models.Model):

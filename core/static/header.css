@@ -24,8 +24,19 @@ a:hover{
 
 a{
     text-decoration: none;
-    color: black;
     border: 1px solid black;
+}
+
+.button-normal{
+    background-color: pink;
+}
+
+.button-locked{
+    background-color:grey;
+}
+
+.button-done{
+    background-color: mediumpurple;
 }
 
 #nav-container{
