@@ -25,7 +25,9 @@ class Coach(models.Model):
 class Membership(models.Model):
     name = models.CharField(max_length=50)
     code = models.CharField(max_length=50)
-    price = models.FloatField()
+    price_1 = models.FloatField()
+    price_6 = models.FloatField()
+    price_12 = models.FloatField()
 
 class Review(models.Model):
     rating = models.IntegerField()
@@ -34,7 +36,7 @@ class Review(models.Model):
 
 class Payment(models.Model):
     date = models.DateField()
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='payments')
+    client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='payments')
     amount = models.FloatField()
     method = models.CharField(max_length=50, choices=[
         ('credit_card', 'Credit Card'),
@@ -46,7 +48,7 @@ class Payment(models.Model):
         choices=[
             ('pending', 'Pending'),
             ('completed', 'Completed'),
-            ('failed', 'Failed'),
+            ('cancelled', 'Cancelled'),
             ('scheduled', 'Scheduled'),
         ],
         default='pending'

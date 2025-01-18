@@ -10,7 +10,7 @@
                 <p>{{ workout.name }}</p>
 
                 {% if request.user.is_authenticated and not request.user.is_coach%}
-                    <a class="{% if request.user in workout.client.all %} button-done {% elif workout.max_participants > workout.client.all|length %} button-normal {% else %} button-locked {% endif %}"
+                    <a class="{% if request.user.client.membership == null %} button-locked {% elif request.user in workout.client.all %} button-done {% elif workout.max_participants > workout.client.all|length %} button-normal {% else %} button-locked {% endif %}"
                        href="{% url 'workout:join_workout' %}?workout_id={{ workout.id }}"> join </a>
 
                 {% endif %}

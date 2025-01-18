@@ -36,17 +36,18 @@ class ClientRegisterForm(forms.ModelForm):
         self.fields['gender'].choices = delete_null_choice(self.fields['gender'].choices)
         print(type(self.fields['gender'].choices))
 
-class PaymentForm(forms.ModelForm):
-    class Meta:
-        model = Payment
-        fields = ['method']
-        widgets = {
-            'method': forms.RadioSelect(),
-        }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['method'].choices = delete_null_choice(self.fields['method'].choices)
+# do wyjebania
+# class PaymentForm(forms.ModelForm):
+#     class Meta:
+#         model = Payment
+#         fields = ['method']
+#         widgets = {
+#             'method': forms.RadioSelect(),
+#         }
+#
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         self.fields['method'].choices = delete_null_choice(self.fields['method'].choices)
 
 # class ClientLoginForm(forms.ModelForm):
 #     class Meta:

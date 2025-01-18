@@ -12,4 +12,5 @@ urlpatterns = [
     path("memberships/", views.show_memberships, name="membership"),
     path("coaches/", views.show_coaches, name="coaches"),
     path("payment_<int:membership_id>/", views.payment, name="payment"),
+    path("cancel_membership", views.cancel_membership, name="cancel_membership"),
 ]

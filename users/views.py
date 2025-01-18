@@ -6,13 +6,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from users.models import User, Visit, Membership, Coach
+from django.template.context_processors import request
+
+from users.models import User, Visit, Membership, Coach, Payment
 from django.contrib.auth import login, logout
 
 # dodaj wizyty, moze jakis qr kod?
 # moze laczenie z zegarkami czy cos do treningow
 
-from users.forms import ClientRegisterForm, PaymentForm
+from users.forms import ClientRegisterForm
 from workout.models import Workout
 
 
@@ -43,8 +45,7 @@ def login_user(request):
       #  form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
-            if not user.is_coach:
-                login(request, user)
+            login(request, user)
             return HttpResponseRedirect('/users/profile')
 
     context['form'] = form
@@ -76,7 +77,7 @@ def user_profile(request):
 
 from datetime import date, datetime
 def add_visit(request, user_id):
-    #user_id = request.user_id
+    #   user_id = request.user_id
     try:
         user = User.objects.get(pk=user_id)
         visit = Visit.objects.create(client=user, date=date.today(), enter_time=datetime.now().strftime("%H:%M:%S"))
@@ -92,19 +93,52 @@ def show_memberships(request):
     }
     return render(request, 'users/memberships.html', context)
 
+from dateutil.relativedelta import relativedelta
 def payment(request, membership_id):
-    form = PaymentForm()
     if request.method == 'POST':
-        form = PaymentForm(request.POST)
+        user = request.user
+        client = user.client
+        client.membership = Membership.objects.filter(id=membership_id).get()
+        client.save()
+        payment_method = request.POST.get('method')
+        months, price = request.POST.get('option').split(':')
+        payments = [Payment.objects.create(
+            date = date.today() + relativedelta(months=(month-1)),
+            client = request.user,
+            amount = price,
+            method = payment_method,
+            status = 'completed' if month==1 else 'scheduled',
+        )  for month in range(1, int(months) + 1)]
+        for payment in payments:
+            payment.save()
+        return HttpResponse("paid")
+
     try:
         membership = Membership.objects.filter(pk=membership_id).get()
+        prices = {
+            int(field.name.split('_')[-1]): getattr(membership, field.name)
+            for field in membership._meta.get_fields()
+            if field.name.startswith('price_')
+        }
+
         context = {
-            'form': form,
             'membership': membership,
+            'payment_options': Payment._meta.get_field('method').choices,
+            'prices': prices,
         }
         return render(request, 'users/payment.html', context)
     except Membership.DoesNotExist:
         return HttpResponse('no such membership')
+
+def cancel_membership(request):
+    user = request.user
+    user.client.membership = None
+    user.client.save()
+    payments = Payment.objects.filter(client=user).filter(status='scheduled')
+    for payment in payments:
+        payment.status = 'cancelled'
+        payment.save()
+    return redirect('/users/profile')
 
 def show_coaches(request):
     coaches = User.objects.filter(is_coach=True)

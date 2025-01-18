@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,12 +10,36 @@
 
 <p>pay</p>
 <p>{{membership.name}}</p>
-<p>{{membership.price}}</p>
 
-<form>
-    {{ form }}
+<form id="payment-form" method="post">
+    {% csrf_token %}
+    <label>payment method</label>
+
+    <div id="payment-options" data-options="{{ payment_options|safe }}"></div>
+    {%for method in payment_options%}
+    <br>
+    <label>
+        <input type="radio" name="method" value="{{method.0}}" onchange="changePaymentForm()" required>
+        {{method.1}}
+    </label>
+    {%endfor%}
+
+    <br>
+    <label>how many months?</label>
+    {%for months, price in prices.items%}
+    <br>
+    <label>
+        <input type="radio" name="option" value="{{months}}:{{price}}" onchange="changePrice()" required>
+        {{months}}: {{price}} pln
+    </label>
+    {%endfor%}
+
+    <div id="payment-method-form"></div>
+
+    <button type="submit" id="confirm-button" onclick="confirmPayment()" hidden>confirm payment</button>
+    <div id="payment-confirm"></div>
 </form>
 
-
+    <script src="{% static 'payment_forms.js' %}"></script>
 </body>
 </html>

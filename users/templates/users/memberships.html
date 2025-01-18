@@ -6,7 +6,7 @@
 {% for membership in memberships %}
 <form>
     <p>{{membership.name}}</p>
-    <p>{{membership.price}}</p>
+    <p>{{membership.price_12}}</p>
     {% if user.is_authenticated %}
 
     {% if request.user.client.membership.id != membership.id %}
