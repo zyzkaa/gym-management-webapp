@@ -31,7 +31,7 @@ def payment(request, membership_id):
         )  for month in range(1, int(months) + 1)]
         for payment in payments:
             payment.save()
-        return HttpResponse("paid")
+        return redirect('users:current_profile')
 
     try:
         membership = Membership.objects.filter(pk=membership_id).get()
@@ -58,4 +58,4 @@ def cancel_membership(request):
     for payment in payments:
         payment.status = 'cancelled'
         payment.save()
-    return redirect('/users/profile')
+    return redirect('users:current_profile')

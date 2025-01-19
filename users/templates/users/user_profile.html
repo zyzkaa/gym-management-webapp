@@ -15,7 +15,7 @@
 <h1>membership: </h1>
 {% if user.client.membership is not None %}
 <p>{{user.client.membership.name}}</p>
-<a href="{% url 'users:cancel_membership' %}" >cancel membership</a>
+<a href="{% url 'memberships:cancel_membership' %}" >cancel membership</a>
 {% else %}
 <p>no active membership</p>
 {% endif %}

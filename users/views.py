@@ -66,6 +66,7 @@ def current_profile(request):
     }
     if user.is_coach:
         workouts = Workout.objects.filter(coach=user).filter(status='active')
+        #workouts = Workout.objects.filter(coach=user)
         context['workouts'] = workouts
         return render(request, 'users/coach_profile.html', context)
     else:
@@ -75,7 +76,6 @@ def current_profile(request):
 
 from datetime import date, datetime
 def add_visit(request, user_id):
-    #   user_id = request.user_id
     try:
         user = User.objects.get(pk=user_id)
         visit = Visit.objects.create(client=user, date=date.today(), enter_time=datetime.now().strftime("%H:%M:%S"))

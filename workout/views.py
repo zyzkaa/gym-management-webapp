@@ -64,8 +64,10 @@ def delete_workout(request):
         workout = Workout.objects.get(id=workout_id)
         if workout.coach == request.user:
             workout.client.clear()
+            #print(workout.client.all())
             workout.status = 'inactive'
-        return redirect('users/profile')
+            workout.save()
+        return redirect('users:current_profile')
     except Workout.DoesNotExist:
         return HttpResponse('no such workout')
 
