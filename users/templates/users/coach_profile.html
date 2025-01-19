@@ -7,7 +7,7 @@
 
 <h2>my workouts:</h2>
 {% for workout in workouts %}
-<h3>{{ workout.name }}</h3>
+<a href="{% url 'workout:details_workout' workout.id%}" >{{workout.name}}</a>
 <a href="{% url 'workout:delete_workout'%}?workout_id={{workout.id}}">delete</a>
 <a href="{%url 'workout:edit_workout'%}?workout_id={{workout.id}}">edit</a>
 <a href="">cancel next one</a>

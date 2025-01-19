@@ -3,6 +3,7 @@ from dataclasses import field
 from django import forms
 from django.contrib.auth import validators
 from django.contrib.auth.password_validation import validate_password
+from django.forms import ModelForm
 
 from users.models import User, Client
 from utils import delete_null_choice
@@ -35,6 +36,17 @@ class ClientRegisterForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['gender'].choices = delete_null_choice(self.fields['gender'].choices)
         print(type(self.fields['gender'].choices))
+
+
+class UserEditFrom(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username', 'email', 'profile_picture']
+
+class CoachEditForm(UserEditFrom):
+    hourly_rate = forms.DecimalField(max_digits=5, decimal_places=2)
+    description = forms.CharField(widget=forms.Textarea)
+    phone_number = forms.CharField(widget=forms.Textarea)
 
 # do wyjebania
 # class PaymentForm(forms.ModelForm):

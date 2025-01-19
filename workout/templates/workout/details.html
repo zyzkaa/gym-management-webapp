@@ -1,0 +1,30 @@
+{% extends 'core/index.html' %}
+{% block content %}
+
+{{workout.name}}
+
+<a href="{% url 'users:coach_info' workout.coach.id %}">
+    {{workout.coach.first_name}}
+    {{workout.coach.last_name}}
+</a>
+
+<a>edit</a>
+<!--dodaj link-->
+
+<p>{{workout.description}} </p>
+<p>{{workout.target}} </p>
+<p>{{workout.difficulty}} </p>
+<p>{{workout.day}} </p>
+<p>{{workout.start_time}} </p>
+<p>{{workout.end_time}} </p>
+
+
+{% if request.user.is_coach %}
+{% for participant in workout.client.all%}
+<p>{{participant.username}}</p>
+<a href="{% url 'workout:remove_client'%}?workout_id={{workout.id}}&client_id={{participant.id}}">remove</a>
+{% endfor %}
+{% endif %}
+
+
+{% endblock %}

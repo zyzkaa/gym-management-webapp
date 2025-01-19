@@ -1,9 +1,12 @@
+from lib2to3.fixes.fix_input import context
 from warnings import catch_warnings
 from xml.etree.ElementTree import tostring
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
+
+from users.models import User
 from workout.forms import AddWorkoutForm
 from workout.models import Workout
 
@@ -41,7 +44,7 @@ def join_workout(request):
         clients_count = workout.client.all().count()
         if workout.max_participants > clients_count: # test this!!
             workout.client.add(request.user)
-            return HttpResponse(f'joined {workout_id}')
+            return redirect("workout:schedule")
         return HttpResponse(f'max participants already')
     except Workout.DoesNotExist:
         return HttpResponse('no such workout')
@@ -83,6 +86,22 @@ def edit_workout(request):
     form = AddWorkoutForm(instance=workout)
     return render(request, "workout/add.html", {'form': form})
 
-def log_visit(request):
-    return HttpResponse('ok')
+def details_workout(request, workout_id):
+    try:
+        workout = Workout.objects.get(id=workout_id)
+        context = {
+            'workout': workout,
+        }
+        return render(request, "workout/details.html", context)
+    except Workout.DoesNotExist:
+        return HttpResponse('no such workout')
+
+def remove_client_from_workout(request):
+    workout_id = request.GET.get('workout_id')
+    client_id = request.GET.get('client_id')
+    workout = Workout.objects.get(id=workout_id)
+    client = User.objects.get(id=client_id)
+    workout.client.remove(client)
+    workout.save()
+    return redirect("workout:details_workout", workout_id)
 

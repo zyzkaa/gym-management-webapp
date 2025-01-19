@@ -9,6 +9,7 @@
     <p>{{coach.email}}</p>
     <img alt="coach_profile_picture" src="{{coach.profile_picture.url}}">
     <p>{{coach.coach.description}}</p>
+    <a href="{%url 'users:coach_info' coach.id %}">info</a>
 </div>
 
 {% endfor %}

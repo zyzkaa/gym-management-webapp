@@ -1,0 +1,24 @@
+{% extends 'core/index.html' %}
+{% block content %}
+
+<img alt="profile_picture" src="{{coach.profile_picture.url}}">
+<div>
+    <p>{{coach.first_name}}</p>
+    <p>{{coach.last_name}}</p>
+    <p>{{coach.email}}</p>
+    <p>{{coach.coach.phone_number}}</p>
+</div>
+<p>{{coach.coach.description}}</p>
+
+
+{% for workout in workouts %}
+<h3>{{workout.name}}</h3>
+<a href="{% url 'workout:details_workout' workout.id%}" >details</a>
+{% endfor %}
+
+{% if request.user.is_authenticated and not request.user.id_coach %}
+<a>request 1 on 1 coaching</a>
+{% endif %}
+
+
+{% endblock %}

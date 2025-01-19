@@ -10,4 +10,6 @@ urlpatterns = [
     path("logout/", views.logout_user, name="logout"),
     path("add_visit/<int:user_id>/", views.add_visit, name="add_visit"),
     path("coaches/", views.show_coaches, name="coaches"),
+    path("coaches/<int:coach_id>", views.coach_info, name="coach_info"), ## dodaj imie i nazwisko w linku
+    path("edit/", views.edit_info, name="edit"),
 ]

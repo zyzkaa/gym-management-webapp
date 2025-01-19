@@ -15,7 +15,7 @@ from django.contrib.auth import login, logout
 # dodaj wizyty, moze jakis qr kod?
 # moze laczenie z zegarkami czy cos do treningow
 
-from users.forms import ClientRegisterForm
+from users.forms import ClientRegisterForm, UserEditFrom, CoachEditForm
 from workout.models import Workout
 
 
@@ -52,10 +52,10 @@ def login_user(request):
     context['form'] = form
     return render(request, 'users/login.html', context)
 
+@login_required
 def logout_user(request):
     user = request.user
-    if user.is_authenticated:
-        logout(request)
+    logout(request)
     return redirect("/")
 
 @login_required
@@ -91,6 +91,42 @@ def show_coaches(request):
     }
     return render(request, 'users/coaches.html', context)
 
+def coach_info(request, coach_id):
+    try:
+        coach = User.objects.get(id=coach_id)
+        workouts = Workout.objects.filter(coach=coach)
+        context = {
+            'coach': coach,
+            "workouts": workouts,
+        }
+        return render(request, 'users/coach_page.html', context)
+    except User.DoesNotExist:
+        return HttpResponse('no such user')
+
+def edit_info(request):
+    user = request.user
+    if user.is_coach:
+        data = {
+            'hourly_rate': user.coach.hourly_rate,
+            'description': user.coach.description,
+            'phone_number': user.coach.phone_number,
+        }
+        if request.method == 'POST':
+            form = CoachEditForm(request.POST, instance=user, initial=data)
+            form.save()
+            for name, value in data.items():
+                if form.cleaned_data[name] != value:
+                    setattr(user.coach, name, form.cleaned_data[name])
+            user.coach.save()
+            return redirect('users:current_profile')
+        form = CoachEditForm(instance=request.user, initial=data)
+    else:
+        if request.method == 'POST':
+            form = UserEditFrom(request.POST, instance=request.user)
+            form.save()
+            return redirect('users:current_profile')
+        form = UserEditFrom(instance=request.user)
+    return render(request, 'users/login.html', {'form': form})
 
 # def register(request):
 #     if request.method == "POST":
