@@ -1,0 +1,20 @@
+{% extends 'core/index.html' %}
+{% block content %}
+
+{%include 'users/user_info.html'%}
+{%block user_info%}
+{%endblock%}
+
+<h2>my workouts:</h2>
+{% for workout in workouts %}
+<h3>{{ workout.name }}</h3>
+<a href="{% url 'workout:delete_workout'%}?workout_id={{workout.id}}">delete</a>
+<a href="{%url 'workout:edit_workout'%}?workout_id={{workout.id}}">edit</a>
+<a href="">cancel next one</a>
+{% endfor %}
+<a href="{% url 'workout:add_workout'%}">add</a>
+
+<h2>my personal coachings:???</h2>
+
+
+{% endblock %}

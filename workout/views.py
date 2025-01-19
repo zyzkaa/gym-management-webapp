@@ -2,7 +2,7 @@ from warnings import catch_warnings
 from xml.etree.ElementTree import tostring
 
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from workout.forms import AddWorkoutForm
 from workout.models import Workout
@@ -22,7 +22,7 @@ def add_workout(request):
             workout = form.save(commit=False)
             workout.coach = request.user
             workout.save()
-            return HttpResponseRedirect("/users/profile")
+            return redirect("users:current_profile")
     context["form"] = form
     return render(request, "workout/add.html", context)
 
@@ -33,6 +33,7 @@ def schedule(request):
     }
     return render(request, "workout/schedule.html", context)
 
+@login_required
 def join_workout(request):
     workout_id = request.GET.get('workout_id')
     try:
@@ -45,6 +46,7 @@ def join_workout(request):
     except Workout.DoesNotExist:
         return HttpResponse('no such workout')
 
+@login_required
 def leave_workout(request):
     workout_id = request.GET.get('workout_id')
     try:
@@ -53,6 +55,31 @@ def leave_workout(request):
         return HttpResponse(f'left {workout_id}')
     except Workout.DoesNotExist:
         return HttpResponse('no such workout')
+
+@login_required
+@user_passes_test(is_coach, login_url='/')
+def delete_workout(request):
+    workout_id = request.GET.get('workout_id')
+    try:
+        workout = Workout.objects.get(id=workout_id)
+        if workout.coach == request.user:
+            workout.client.clear()
+            workout.status = 'inactive'
+        return redirect('users/profile')
+    except Workout.DoesNotExist:
+        return HttpResponse('no such workout')
+
+def edit_workout(request):
+    workout_id = request.GET.get('workout_id')
+    workout = Workout.objects.get(id=workout_id)
+    if workout.coach != request.user:
+        return HttpResponse('not authorized')
+    if request.method == "POST":
+        form = AddWorkoutForm(request.POST, instance=workout)
+        form.save()
+        return redirect("users:current_profile")
+    form = AddWorkoutForm(instance=workout)
+    return render(request, "workout/add.html", {'form': form})
 
 def log_visit(request):
     return HttpResponse('ok')

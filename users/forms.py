@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth import validators
 from django.contrib.auth.password_validation import validate_password
 
-from users.models import User, Client, Payment
+from users.models import User, Client
 from utils import delete_null_choice
 
 

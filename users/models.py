@@ -12,7 +12,7 @@ class User(AbstractUser):
 
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client')
-    membership = models.ForeignKey('users.Membership',
+    membership = models.ForeignKey('memberships.Membership',
                                    on_delete=models.PROTECT,
                                    null=True)
 
@@ -22,43 +22,17 @@ class Coach(models.Model):
     description = models.TextField(null=True)
     phone_number = models.IntegerField(null=True)
 
-class Membership(models.Model):
-    name = models.CharField(max_length=50)
-    code = models.CharField(max_length=50)
-    price_1 = models.FloatField()
-    price_6 = models.FloatField()
-    price_12 = models.FloatField()
-
-class Review(models.Model):
-    rating = models.IntegerField()
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='reviews')
-    coach = models.ForeignKey(Coach, on_delete=models.CASCADE, related_name='reviews')
-
-class Payment(models.Model):
-    date = models.DateField()
-    client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='payments')
-    amount = models.FloatField()
-    method = models.CharField(max_length=50, choices=[
-        ('credit_card', 'Credit Card'),
-        ('paypal', 'PayPal'),
-        ('bank_transfer', 'Bank Transfer')
-    ])
-    status = models.CharField(
-        max_length=20,
-        choices=[
-            ('pending', 'Pending'),
-            ('completed', 'Completed'),
-            ('cancelled', 'Cancelled'),
-            ('scheduled', 'Scheduled'),
-        ],
-        default='pending'
-    )
-
 class Visit(models.Model):
     client = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField()
     enter_time = models.TimeField()
 
+
+
+#class Review(models.Model):
+#     rating = models.IntegerField()
+#     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='reviews')
+#     coach = models.ForeignKey(Coach, on_delete=models.CASCADE, related_name='reviews')
 
 # class UserAttributes(models.Model):
 #     membership_type = models.CharField(max_length=20, default='none', choices=[

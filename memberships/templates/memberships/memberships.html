@@ -7,12 +7,11 @@
 <form>
     <p>{{membership.name}}</p>
     <p>{{membership.price_12}}</p>
-    {% if user.is_authenticated %}
 
+    {% if user.is_authenticated and not user.is_coach%}
     {% if request.user.client.membership.id != membership.id %}
     <a href="{% url 'users:payment' membership_id=membership.id%}">{% if request.user.client.membership is null%}get{% else %}change{%endif%}</a>
     {% endif %}
-
     {% endif %}
 </form>
 {% endfor %}

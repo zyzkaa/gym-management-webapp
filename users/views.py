@@ -8,7 +8,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template.context_processors import request
 
-from users.models import User, Visit, Membership, Coach, Payment
+from users.models import User, Visit, Coach
+from memberships.models import Membership, Payment
 from django.contrib.auth import login, logout
 
 # dodaj wizyty, moze jakis qr kod?
@@ -42,11 +43,11 @@ def login_user(request):
     context = {}
     form = AuthenticationForm()
     if request.method == 'POST':
-      #  form = AuthenticationForm(data=request.POST)
+        form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return HttpResponseRedirect('/users/profile')
+            return HttpResponseRedirect('/')
 
     context['form'] = form
     return render(request, 'users/login.html', context)
@@ -58,22 +59,19 @@ def logout_user(request):
     return redirect("/")
 
 @login_required
-def user_current_profile(request):
+def current_profile(request):
     user = request.user
-    workouts = Workout.objects.filter(client=user)
     context = {
-        'user': user,
-        'workouts': workouts,
-        }
-    return render(request, 'users/profile.html', context)
-
-
-
-def coach_profile(request):
-    return render(request, 'users/coach_profile.html')
-
-def user_profile(request):
-    return render(request, 'users/user_profile.html')
+        'user': user
+    }
+    if user.is_coach:
+        workouts = Workout.objects.filter(coach=user).filter(status='active')
+        context['workouts'] = workouts
+        return render(request, 'users/coach_profile.html', context)
+    else:
+        workouts = Workout.objects.filter(client=user)
+        context['workouts'] = workouts
+        return render(request, 'users/user_profile.html', context)
 
 from datetime import date, datetime
 def add_visit(request, user_id):
@@ -85,60 +83,6 @@ def add_visit(request, user_id):
         return HttpResponse('ok')
     except User.DoesNotExist:
         return HttpResponse('no such user')
-
-def show_memberships(request):
-    memberships = Membership.objects.all()
-    context = {
-        'memberships': memberships,
-    }
-    return render(request, 'users/memberships.html', context)
-
-from dateutil.relativedelta import relativedelta
-def payment(request, membership_id):
-    if request.method == 'POST':
-        user = request.user
-        client = user.client
-        client.membership = Membership.objects.filter(id=membership_id).get()
-        client.save()
-        payment_method = request.POST.get('method')
-        months, price = request.POST.get('option').split(':')
-        payments = [Payment.objects.create(
-            date = date.today() + relativedelta(months=(month-1)),
-            client = request.user,
-            amount = price,
-            method = payment_method,
-            status = 'completed' if month==1 else 'scheduled',
-        )  for month in range(1, int(months) + 1)]
-        for payment in payments:
-            payment.save()
-        return HttpResponse("paid")
-
-    try:
-        membership = Membership.objects.filter(pk=membership_id).get()
-        prices = {
-            int(field.name.split('_')[-1]): getattr(membership, field.name)
-            for field in membership._meta.get_fields()
-            if field.name.startswith('price_')
-        }
-
-        context = {
-            'membership': membership,
-            'payment_options': Payment._meta.get_field('method').choices,
-            'prices': prices,
-        }
-        return render(request, 'users/payment.html', context)
-    except Membership.DoesNotExist:
-        return HttpResponse('no such membership')
-
-def cancel_membership(request):
-    user = request.user
-    user.client.membership = None
-    user.client.save()
-    payments = Payment.objects.filter(client=user).filter(status='scheduled')
-    for payment in payments:
-        payment.status = 'cancelled'
-        payment.save()
-    return redirect('/users/profile')
 
 def show_coaches(request):
     coaches = User.objects.filter(is_coach=True)

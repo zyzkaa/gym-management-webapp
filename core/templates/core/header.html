@@ -7,16 +7,16 @@
   </div>
 
   <div id="nav-container">
-    <a href="{% url 'users:coaches' %}">trenerzy</a>
-    <a href="{% url 'workout:schedule' %}">zajecia</a>
-    <a href="{% url 'users:membership' %}">oferta</a>
-    <a>kontakt</a>
+    <a href="{% url 'users:coaches' %}">coaches</a>
+    <a href="{% url 'workout:schedule' %}">workouts</a>
+    <a href="{% url 'memberships:show_memberships' %}">offer</a>
+    <a>contact</a>
   </div>
 
   <div id="login-container">
     {% if user.is_authenticated %}
     <a href="{% url 'users:logout' %}">logout</a>
-    <a href="{% url 'users:profile' %}">profile</a>
+    <a href="{% url 'users:current_profile' %}">profile</a>
     {% else %}
     <a href="{% url 'users:login' %}">login</a>
     <a href="{% url 'users:register' %}">register</a>
