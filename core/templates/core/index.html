@@ -8,8 +8,11 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="stylesheet" href="{% static 'header.css' %}">
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
 </head>
-<body>
+<body class="row me-2 ms-2 mt-2 bg-custom-main">
     {% include 'core/header.html' %}
     <main>
         {% block content %}

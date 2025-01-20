@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'workout.apps.WorkoutConfig',
     'core.apps.CoreConfig',
     'memberships.apps.MembershipsConfig',
+    'bootstrap5',
 ]
 
 MIDDLEWARE = [
