@@ -104,10 +104,30 @@
 /*    padding: 10px 0;*/
 /*}*/
 
+body{
+    font-family: "Raleway", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
 .bg-custom-header{
     background-color: #795663;
+
 }
 
 .bg-custom-main{
     background-color: whitesmoke;
 }
+
+header a{
+    font-weight: 600 !important;
+}
+
+a.btn:active{
+    box-shadow: none !important;
+}
+
+#menu .btn:hover, .btn:active{
+    box-shadow: 0 0 0 2px black;
+}
+
