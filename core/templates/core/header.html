@@ -1,8 +1,8 @@
-<header id="header">
-  <div id="logo-container">
+<header>
+  <div id="logo-container" style="height: 100%">
     <a href="/">
       {% load static %}
-      <img id="header-img" src="{% static 'logo.png' %}" alt="logo">
+      <img style="height: 100%" src="{% static 'logo.png' %}" alt="logo" >
     </a>
   </div>
 
@@ -22,6 +22,5 @@
     <a href="{% url 'users:register' %}">register</a>
     {% endif %}
   </div>
-
 </header>
 
