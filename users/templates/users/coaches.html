@@ -1,17 +1,24 @@
 {% extends 'core/index.html' %}
 {% block content %}
 
-{% for coach in coaches %}
+<div id="coaches-page">
+    <h1>Our Coaches</h1>
+    <div id="all-coaches-containers">
+        {% for coach in coaches %}
+        <div class="coach-container">
+            <div class="coach-paragraphs-cont">
+                <p>{{coach.first_name}}</p>
+                <p>{{coach.last_name}}</p>
+                <p>{{coach.email}}</p>
+                <a href="{%url 'users:coach_info' coach.id %}">info</a>
+            </div>
+            <img alt="coach_profile_picture" src="{{coach.profile_picture.url}}">
+            <p class="coaches-all-description">{{coach.coach.description}}</p>
+        </div>
+        {% endfor %}
+    </div>
 
-<div>
-    <p>{{coach.first_name}}</p>
-    <p>{{coach.last_name}}</p>
-    <p>{{coach.email}}</p>
-    <img alt="coach_profile_picture" src="{{coach.profile_picture.url}}">
-    <p>{{coach.coach.description}}</p>
-    <a href="{%url 'users:coach_info' coach.id %}">info</a>
 </div>
 
-{% endfor %}
 
 {% endblock %}

@@ -26,6 +26,7 @@ class ClientRegisterForm(forms.ModelForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data['password'])
+        user.is_coach = False
         if commit:
             user.save()
             client = Client.objects.create(user=user)

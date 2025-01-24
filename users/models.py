@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 class User(AbstractUser):
-    is_coach = models.BooleanField(default=False)
+    is_coach = models.BooleanField()
     profile_picture = models.ImageField(upload_to='profile_pictures/',
                                         default='profile_pictures/default.png')
     gender = models.CharField(
