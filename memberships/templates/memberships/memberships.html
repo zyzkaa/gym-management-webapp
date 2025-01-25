@@ -1,20 +1,29 @@
 {% extends 'core/index.html' %}
 {% block content %}
 
-<h1>memberships</h1>
+<div id="memberships-page">
+    <h1>membership options</h1>
 
-{% for membership in memberships %}
-<form>
-    <p>{{membership.name}}</p>
-    <p>{{membership.price_12}}</p>
+    <div id="membership-options">
+        {% for membership in memberships %}
+        <form>
+            <div>
+                <h2>{{membership.name}}</h2>
+                <p>{{membership.price_12}} pln / month <br> for 12 months</p>
+                <ul>
+                    {%for point in membership.desc%}
+                    <li>{{point}}</li>
+                    {%endfor%}
+                </ul>
+            </div>
+            {% if user.is_authenticated and not user.is_coach and request.user.client.membership.id != membership.id %}
+            <a href="{% url 'memberships:payment' membership_id=membership.id%}">{% if request.user.client.membership is null%}get{% else %}change{%endif%}</a>
+            {% endif %}
+        </form>
+        {% endfor %}
+    </div>
 
-    {% if user.is_authenticated and not user.is_coach%}
-    {% if request.user.client.membership.id != membership.id %}
-    <a href="{% url 'memberships:payment' membership_id=membership.id%}">{% if request.user.client.membership is null%}get{% else %}change{%endif%}</a>
-    {% endif %}
-    {% endif %}
-</form>
-{% endfor %}
+</div>
 
 {% endblock %}
 
