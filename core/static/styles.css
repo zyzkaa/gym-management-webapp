@@ -22,9 +22,9 @@ header{
     margin-bottom: 20px;
 }
 
-a:visited {
-    color: black !important;
-}
+/*a:visited {*/
+/*    color: black !important;*/
+/*}*/
 
 a:hover{
     cursor: pointer;
@@ -105,14 +105,15 @@ main{
     align-items: center;
 }
 
+#coaches-page h1{
+    font-size: 3.5rem;
+    margin-bottom: 6vh;
+}
+
 #all-coaches-containers{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-}
-
-#all-coaches-containers img{
-
 }
 
 .coach-container{
@@ -122,6 +123,7 @@ main{
     grid-template-columns: 2fr 1fr;
     grid-template-rows: 1fr 2fr;
     column-gap: 1rem;
+    font-size: 1.3rem;
 }
 
 .coach-paragraphs-cont{
@@ -147,15 +149,19 @@ main{
 
 .coach-paragraphs-cont p{
     margin: 0;
+    height: 100%;
 }
 
 .coach-container img{
     grid-area: span 1;
     width: 100%;
+    border-radius: 0.3rem;
 }
 
 .coaches-all-description{
     grid-area: 2 / 1 / 3 / 3;
 }
+
+
 
 

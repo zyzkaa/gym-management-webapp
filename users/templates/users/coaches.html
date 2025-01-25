@@ -10,7 +10,7 @@
                 <p>{{coach.first_name}}</p>
                 <p>{{coach.last_name}}</p>
                 <p>{{coach.email}}</p>
-                <a href="{%url 'users:coach_info' coach.id %}">info</a>
+                <a href="{%url 'users:coach_info' coach.id %}">More info</a>
             </div>
             <img alt="coach_profile_picture" src="{{coach.profile_picture.url}}">
             <p class="coaches-all-description">{{coach.coach.description}}</p>
