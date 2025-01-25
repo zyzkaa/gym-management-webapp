@@ -1,23 +1,25 @@
 {% extends 'core/index.html' %}
 {% block content %}
-<h1> schedule </h1>
-{% for day in weekdays %}
-    <div>
-        <p> {{ day.0 }}</p>
-        {% for workout in workouts %}
-            {% if workout.day == day.0 %}
-            <p>{{workout.client.all|length}}/{{workout.max_participants}}</p>
-                <p>{{ workout.name }}</p>
-                <a href="{% url 'workout:details_workout' workout.id%}" >details</a>
-                {% if request.user.is_authenticated and not request.user.is_coach%}
-                    <a class="{% if request.user.client.membership == null %} button-locked {% elif request.user in workout.client.all %} button-done {% elif workout.max_participants > workout.client.all|length %} button-normal {% else %} button-locked {% endif %}"
-                       href="{% url 'workout:join_workout' %}?workout_id={{ workout.id }}"> join </a>
-
-                {% endif %}
-
-            {% endif %}
-
+<div class="schedule-container">
+    <h1> schedule </h1>
+    <div class="schedule-table">
+        {% for day in weekdays %}
+            <div>
+                <p> {{ day.0 }}</p>
+                {% for workout in workouts %}
+                    {% if workout.day == day.0 %}
+                    <p>{{workout.client.all|length}}/{{workout.max_participants}}</p>
+                        <p>{{ workout.name }}</p>
+                        <a href="{% url 'workout:details_workout' workout.id%}" >details</a>
+                        {% if request.user.is_authenticated and not request.user.is_coach%}
+                            <a class="{% if request.user.client.membership == null %} button-locked {% elif request.user in workout.client.all %} button-done {% elif workout.max_participants > workout.client.all|length %} button-normal {% else %} button-locked {% endif %}"
+                               href="{% url 'workout:join_workout' %}?workout_id={{ workout.id }}"> join </a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </div>
         {% endfor %}
     </div>
-{% endfor %}
+</div>
+
 {% endblock %}
