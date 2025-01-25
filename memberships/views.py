@@ -7,7 +7,19 @@ from memberships.models import Membership, Payment
 
 
 def show_memberships(request):
-    memberships = Membership.objects.all()
+    memberships = Membership.objects.all().values()
+    desc = {
+        'basic': ['Unlimited gym access',
+                  'Participation in one group workout',
+                  'One complimentary personal training session']
+    }
+    desc['student'] = desc['basic'].copy() + ['Discounted pricing for students with valid ID']
+    desc['premium'] = ['Unlimited gym access',
+                       'Participation in group classes (full schedule)',
+                       'Three complimentary personal training sessions',
+                       'Access to sauna and spa facilities',]
+    for membership in memberships:
+        membership['desc'] = desc[membership['name']]
     context = {
         'memberships': memberships,
     }

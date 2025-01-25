@@ -8,8 +8,11 @@
     {{workout.coach.last_name}}
 </a>
 
+{% if request.user.is_coach %}
 <a>edit</a>
 <!--dodaj link-->
+{% endif %}
+
 
 <p>{{workout.description}} </p>
 <p>{{workout.target}} </p>

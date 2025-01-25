@@ -1,8 +1,12 @@
 {% block user_info %}
 
-<h1>username {{ user.username }}</h1>
-<h1>name {{ user.first_name }} {{ user.last_name}}</h1>
-<h1>email {{ user.email }}</h1>
-<img alt="profile_picture" src="{{ user.profile_picture.url }}" >
-<a href="{% url 'users:edit' %}">edit</a>
+<div id="user-info-cont">
+    <h1>username {{ user.username }}</h1>
+    <h1>name {{ user.first_name }} {{ user.last_name}}</h1>
+    <h1>email {{ user.email }}</h1>
+    <img alt="profile_picture" src="{{ user.profile_picture.url }}" >
+    <a href="{% url 'users:edit' %}">edit</a>
+</div>
+
+
 {%endblock%}

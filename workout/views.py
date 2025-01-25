@@ -31,7 +31,7 @@ def add_workout(request):
 
 def schedule(request):
     context = {
-        'workouts': Workout.objects.all(),
+        'workouts': Workout.objects.all().order_by('start_time').values(),
         'weekdays': Workout.Weekdays.choices
     }
     return render(request, "workout/schedule.html", context)
