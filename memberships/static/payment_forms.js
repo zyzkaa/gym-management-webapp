@@ -1,12 +1,12 @@
 let paymentChosen = false;
 let priceChosen = false;
-const button = document.getElementById('confirm-button')
-const form = document.getElementById('payment-form');
+let id
+let button
 
 function changePaymentForm() {
-
-    const method = document.querySelector('input[name="method"]:checked')?.value;
-    const div = document.getElementById('payment-method-form');
+    let namem = 'method-' + id
+    const method = document.querySelector(`input[name="${namem}"]:checked`)?.value;
+    const div = document.getElementById('payment-method-form-' + id);
     div.innerHTML = ''
     paymentChosen = true;
     showButton()
@@ -59,17 +59,42 @@ function showButton(){
     }
 }
 
+let form
 function confirmPayment(){
     button.disabled = true;
     let dots = ''
 
     let interval = setInterval(() => {
         dots = dots.length < 3 ? dots + '.' : ''
-        button.textContent = `Processing${dots}`
+        button.textContent = 'processing' + dots
     }, 500)
 
     setTimeout(() => {
         clearInterval(interval)
         form.submit()
     }, 3000)
+}
+
+let isShown = false
+let payment_cont
+function showPayment(event, membership_id){
+    event.preventDefault()
+    if(!isShown){
+        priceChosen = false
+        paymentChosen = false
+        form = document.getElementById('form-' + membership_id)
+        button = document.getElementById('confirm-button-'+membership_id);
+        payment_cont = document.getElementById(membership_id+'-form')
+        id = membership_id
+        payment_cont.style.display = 'block'
+        isShown = true
+        return
+    }
+
+    payment_cont.style.display = 'none'
+    isShown = false
+
+    if(membership_id !== id) {
+        showPayment(event, membership_id)
+    }
 }
