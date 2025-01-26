@@ -1,7 +1,7 @@
 {% extends 'core/index.html' %}
 {% block content %}
 <div class="form-container">
-    <form method="post" class="form-horizontal">
+    <form method="post" class="form-horizontal" enctype="multipart/form-data">
         <h1>{{title}}</h1>
         {% csrf_token %}
         {{ form }}
