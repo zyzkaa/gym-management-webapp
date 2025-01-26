@@ -736,18 +736,49 @@ footer ul{
 
 
 /*main*/
+@keyframes fade-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 #main-cont{
     display: flex;
     align-items: center;
     flex-direction: column;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fade-in 2s ease-out forwards;
+    margin-bottom: 5vh;
 }
 
 #main-cont h1{
     font-size: 5rem;
     margin-bottom: 1vh;
+    font-weight: 500;
 }
 
 #main-cont h2{
     font-size: 3rem;
+    font-weight: 500;
 }
+
+#images{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1vh;
+}
+
+#main-cont img{
+    height: 30vh;
+    border-radius: 0.2rem;
+    transition: transform 0.3s ease-in-out;
+    transform: scale(1);
+}
+
+#main-cont img:hover{
+    transform: scale(1.01);
+}
+

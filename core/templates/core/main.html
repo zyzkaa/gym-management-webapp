@@ -1,24 +1,29 @@
 {% extends 'core/index.html'%}
 {% block content %}
+{% load static %}
 
-<div id="main-cont">
+<div id="main-cont" class="animation">
     <h1>Welcome to 💪Gym</h1>
     <h2>Your journey to strength and health starts here!</h2>
+    <h2>Why choose GymX?</h2>
+    <h3>We offer state-of-the-art equipment, experienced trainers, and a wide range of classes to help you reach your fitness goals. Open 7 days a week!</h3>
+    <h2>Take a Look Inside</h2>
+    <div id="images">
+        <img src="{% static 'gym1.jpg' %}" alt="State-of-the-art gym equipment">
+        <img src="{% static 'gym2.jpg' %}" alt="Group fitness class">
+        <img src="{% static 'gym3.jpg' %}" alt="Personal training session">
+        <img src="{% static 'gym4.jpg' %}" alt="Personal training session">
+        <img src="{% static 'gym5.jpg' %}" alt="Personal training session">
+        <img src="{% static 'gym6.jpg' %}" alt="Personal training session">
+        <img src="{% static 'gym7.jpg' %}" alt="Personal training session">
+    </div>
+
 </div>
 
-<div id="about">
-  <h2>Why choose GymX?</h2>
-  <p>We offer state-of-the-art equipment, experienced trainers, and a wide range of classes to help you reach your fitness goals. Open 7 days a week!</p>
-</div>
 
-<section id="gallery">
-  <h2>Take a Look Inside</h2>
-  <div class="gallery-images">
-    <img src="gym-equipment.jpg" alt="State-of-the-art gym equipment">
-    <img src="group-class.jpg" alt="Group fitness class">
-    <img src="personal-training.jpg" alt="Personal training session">
-  </div>
-</section>
+
+
+
 
 
 {% endblock %}
