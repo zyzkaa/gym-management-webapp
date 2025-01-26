@@ -1,5 +1,6 @@
 from datetime import date
 
+from dateutils import months
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -7,7 +8,7 @@ from memberships.models import Membership, Payment
 
 
 def show_memberships(request):
-    memberships = Membership.objects.all().values()
+    memberships = Membership.objects.all()
     desc = {
         'basic': ['Unlimited gym access',
                   'Participation in one group workout',
@@ -19,12 +20,58 @@ def show_memberships(request):
                        'Three complimentary personal training sessions',
                        'Access to sauna and spa facilities',]
     for membership in memberships:
-        membership['desc'] = desc[membership['name']]
+        membership.desc = desc.get(membership.name)
+        membership.prices = {
+            int(field.name.split('_')[-1]): getattr(membership, field.name)
+            for field in membership._meta.get_fields()
+            if field.name.startswith('price_')
+        }
+
     context = {
         'memberships': memberships,
+        'payment_options': Payment._meta.get_field('method').choices,
     }
+
+    if request.method == 'POST':
+        user = request.user
+        client = user.client
+        membership_id = request.POST.get('membership_id')
+        client.membership = memberships.get(pk=membership_id)
+        client.save()
+        payment_method = request.POST.get('method-' + membership_id)
+        months, price = request.POST.get('option-' + membership_id).split(':')
+        payments = [Payment.objects.create(
+            date=date.today() + relativedelta(months=(month - 1)),
+            client=request.user,
+            amount=price,
+            method=payment_method,
+            status='completed' if month == 1 else 'scheduled',
+        ) for month in range(1, int(months) + 1)]
+        for payment in payments:
+            payment.save()
+        return redirect('users:current_profile')
+
     return render(request, 'memberships/memberships.html', context)
 
+
+# def show_memberships(request):
+#     memberships = Membership.objects.all().values()
+#     desc = {
+#         'basic': ['Unlimited gym access',
+#                   'Participation in one group workout',
+#                   'One complimentary personal training session']
+#     }
+#     desc['student'] = desc['basic'].copy() + ['Discounted pricing for students with valid ID']
+#     desc['premium'] = ['Unlimited gym access',
+#                        'Participation in group classes (full schedule)',
+#                        'Three complimentary personal training sessions',
+#                        'Access to sauna and spa facilities',]
+#     for membership in memberships:
+#         membership['desc'] = desc[membership['name']]
+#     context = {
+#         'memberships': memberships,
+#     }
+#     return render(request, 'memberships/memberships.html', context)
 from dateutil.relativedelta import relativedelta
 def payment(request, membership_id):
     if request.method == 'POST':

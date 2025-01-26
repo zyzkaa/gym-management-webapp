@@ -7,6 +7,7 @@
         <a href="{% url 'users:coach_info' workout.coach.id %}">
         <h2>{{workout.coach.first_name}} {{workout.coach.last_name}}</h2>
         </a>
+        <p>participants: {{workout.client.count}}/{{workout.max_participants}} </p>
         <p>target: {{workout.target}} </p>
         <p>difficulty: {{workout.difficulty}} </p>
         <p>{{workout.day}} {{workout.start_time|date:"h:i a"}}-{{workout.start_time|date:"h:i a"}}</p>
