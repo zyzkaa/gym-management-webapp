@@ -1,24 +1,30 @@
 {% extends 'core/index.html' %}
 {% block content %}
 
-{%include 'users/user_info.html'%}
-{%block user_info%}
-{%endblock%}
+<div id="profile-cont">
+    {%include 'users/user_info.html'%}
+    <div id="profile-info">
+        <div id="profile-workouts" class="profile-info-cont">
+            <h2>my workouts:</h2>
+            {% for workout in workouts %}
+            <a href="{% url 'workout:details_workout' workout.id%}" >{{workout.name}}</a>
+            <a href="{% url 'workout:leave_workout'%}?workout_id={{workout.id}}">leave</a>
+            {% endfor %}
+        </div>
 
-<h2>my workouts:</h2>
-{% for workout in workouts %}
-<h3>{{ workout.name }}</h3>
-<a href="{% url 'workout:leave_workout'%}?workout_id={{workout.id}}">leave</a>
-{% endfor %}
+        <div id="profile-membership" class="profile-info-cont">
+            <h2>membership: </h2>
+            {% if user.client.membership is not None %}
+            <h3>{{user.client.membership.name}}</h3>
+            <a href="{% url 'memberships:cancel_membership' %}" >cancel membership</a>
+            {% else %}
+            <p>no active membership</p>
+            {% endif %}
+        </div>
+    </div>
 
-<br>
-<h1>membership: </h1>
-{% if user.client.membership is not None %}
-<p>{{user.client.membership.name}}</p>
-<a href="{% url 'memberships:cancel_membership' %}" >cancel membership</a>
-{% else %}
-<p>no active membership</p>
-{% endif %}
+</div>
+
 
 
 {% endblock %}

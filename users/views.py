@@ -37,10 +37,12 @@ def register(request):
             return HttpResponse('error' + str(error))
 
     context['form'] = form
-    return render(request, 'users/register.html', context)
+    return render(request, 'users/form.html', context)
 
 def login_user(request):
-    context = {}
+    context = {
+        'title': 'Login'
+    }
     form = AuthenticationForm()
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
@@ -50,7 +52,7 @@ def login_user(request):
             return HttpResponseRedirect('/')
 
     context['form'] = form
-    return render(request, 'users/login.html', context)
+    return render(request, 'users/form.html', context)
 
 @login_required
 def logout_user(request):
@@ -105,12 +107,16 @@ def coach_info(request, coach_id):
 
 def edit_info(request):
     user = request.user
+    context = {
+        'title': 'Edit profile'
+    }
     if user.is_coach:
         data = {
             'hourly_rate': user.coach.hourly_rate,
             'description': user.coach.description,
             'phone_number': user.coach.phone_number,
         }
+        context['form'] = CoachEditForm(instance=request.user, initial=data)
         if request.method == 'POST':
             form = CoachEditForm(request.POST, instance=user, initial=data)
             form.save()
@@ -119,31 +125,10 @@ def edit_info(request):
                     setattr(user.coach, name, form.cleaned_data[name])
             user.coach.save()
             return redirect('users:current_profile')
-        form = CoachEditForm(instance=request.user, initial=data)
     else:
+        context['form'] = UserEditFrom(instance=request.user)
         if request.method == 'POST':
             form = UserEditFrom(request.POST, instance=request.user)
             form.save()
             return redirect('users:current_profile')
-        form = UserEditFrom(instance=request.user)
-    return render(request, 'users/login.html', {'form': form})
-
-# def register(request):
-#     if request.method == "POST":
-#         form = ClientRegisterForm(request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data['username']
-#             password = form.cleaned_data['password']
-#             user = User(username=username, password=make_password(password))
-#             user.save()
-#             return HttpResponse("success")
-#     else:
-#         form = ClientRegisterForm()
-#
-#     return render(request, 'users/register.html', {form: form})
-
-
-# # ...
-# def detail(request, question_id):
-#     question = get_object_or_404(Question, pk=question_id)
-#     return render(request, "polls/detail.html", {"question": question})
+    return render(request, 'users/form.html', context)

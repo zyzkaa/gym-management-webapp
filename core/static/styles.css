@@ -18,8 +18,8 @@ header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 2px;
-    margin-bottom: 20px;
+    border-radius: 0.2rem;
+    margin-bottom: 2vh;
 }
 
 /*a:visited {*/
@@ -82,11 +82,11 @@ a{
     display: flex;
     align-items: center;
     background: whitesmoke;
-    border: 2px solid whitesmoke;
-    border-radius: 10px;
+    border: 0.2rem solid whitesmoke;
+    border-radius: 0.5rem;
     transition: background-color 0.3s ease, color 0.3s ease;
-    margin: 0 0 0 10px;
-    padding: 0 10px;
+    margin: 0 0 0 3%;
+    padding: 0 0.6vw;
     font-size: large;
 }
 
@@ -98,6 +98,7 @@ a{
 main{
     background-color: #E3DBDB;
     width: 100%;
+    border-radius: 0.2rem;
 }
 
 
@@ -286,11 +287,211 @@ main{
 /*user info*/
 
 #user-info-cont{
-    border: 2px solid black;
+    display: flex;
+}
+
+#user-info-cont h1{
+    font-weight: 600;
+    margin: 0 0 1.5rem 0;
+    font-size: 1.5rem;
+}
+
+#user-info-cont img{
+    margin-right: 1rem;
+    width: 50%;
+    border-radius: 1.5%;
+}
+
+#user-info-par{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+}
+
+#user-info-par a{
+    background: whitesmoke;
+    border: 0.2rem solid whitesmoke;
+    border-radius: 0.6rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    padding: 0.3rem 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+#user-info-cont a:hover{
+    background-color: #5F7367;
+    color: whitesmoke;
 }
 
 
 
 
+/*profile*/
+
+#profile-cont{
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#profile-info{
+    display: flex;
+    align-items: flex-start;
+}
+
+#profile-workouts{
+    flex-grow: 1;
+}
+
+#profile-membership{
+    flex-grow: 1;
+}
+
+.profile-info-cont{
+    background-color: #5F7367;
+    color: #E3DBDB;
+    margin: 0.7rem;
+    padding: 0.2rem 0.5rem 1rem 0.5rem;
+    border-radius: 0.2rem;
+}
+
+#profile-info-cont-coach{
+    justify-self: end;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.workout-buttons{
+    margin-bottom: 1rem;
+}
+
+.workout-buttons a{
+    margin-right: 0.5rem;
+}
+
+#profile-info-cont-coach h2{
+    margin-bottom: 0.5rem;
+}
+
+.profile-info-cont h2{
+    margin: 0.2rem 0 0 0;
+    font-size: 2rem;
+}
+
+.profile-info-cont h3{
+    font-size: 1.7rem;
+    margin-bottom: 1rem;
+}
+
+.profile-info-cont a{
+    color: #E3DBDB;
+    transition: color 0.3s ease;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.profile-info-cont a:hover{
+    color: black;
+}
+
+
+
+
+
+
+
+
+/*forms*/
+
+.form-container{
+    display: flex;
+    justify-content: center;
+    padding: 3vh 0;
+}
+
+.form-horizontal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+}
+
+.form-horizontal h1{
+    margin: 0 0 4vh 0;
+    font-size: 3rem;
+    font-weight: 600;
+}
+
+.form-horizontal label{
+    font-weight: 500;
+    font-size: 2rem;
+    margin-bottom: 0.8vh;
+}
+
+.form-horizontal input{
+    margin-bottom: 1.5vh;
+    width: 40%;
+    background: whitesmoke;
+    border: 0.2rem solid whitesmoke;
+    border-radius: 0.3rem;
+    font-size: 1.3rem;
+    padding: 0.2rem;
+}
+
+textarea, select{
+    background: whitesmoke;
+    border: 0.2rem solid whitesmoke;
+    border-radius: 0.3rem;
+}
+
+select{
+    font-size: 1.5rem;
+    margin-bottom: 1vh;
+}
+
+.form-horizontal input:focus, textarea:focus{
+    outline: none;
+}
+
+.form-horizontal input[type='submit']{
+    margin: 0.8vh 0;
+    width: auto;
+    font-size: 1.3rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    padding: 0.3rem 0.5rem;
+}
+
+.form-horizontal input[type='submit']:hover{
+    background-color: #5F7367;
+    color: whitesmoke;
+    cursor: pointer;
+}
+
+#id_gender{
+    width: 40%;
+    margin-bottom: 1vh;
+}
+
+#id_profile_picture{
+    background-color: transparent;
+    border: none;
+    font-size: 1.2rem;
+}
+
+#id_description{
+    font: 500 1.5rem "Raleway", serif;
+    margin-bottom: 1vh;
+}
+
+input[type='time']{
+    font: 500 1.5rem "Raleway", serif;
+}
+
+input[type='submit']{
+    margin-top: 3vh !important;
+}
 
 

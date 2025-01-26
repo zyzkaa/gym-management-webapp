@@ -8,8 +8,12 @@ class AddWorkoutForm(forms.ModelForm):
         model = Workout
         exclude = ('user', 'coach', 'status', 'client')
         widgets = {
-            'difficulty': forms.RadioSelect(),
-            'day' : forms.RadioSelect(),
+            'difficulty': forms.Select(attrs={'class': 'form-control'}),
+            'day' : forms.Select(attrs={'class': 'form-control'}),
+            'start_time': forms.TimeInput(attrs={'class': 'form-control',
+                                                 'type': 'time'}),
+            'end_time': forms.TimeInput(attrs={'class': 'form-control',
+                                                 'type': 'time'}),
         }
 
     def __init__(self, *args, **kwargs):
