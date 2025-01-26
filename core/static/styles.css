@@ -1,4 +1,4 @@
-body{
+body {
     font-family: "Raleway", serif;
     font-optical-sizing: auto;
     font-style: normal;
@@ -7,6 +7,8 @@ body{
     flex-direction: column;
     align-items: center;
     margin: 0.5vw 0.5vw;
+    height: 98vh;
+    box-sizing: border-box;
 }
 
 header{
@@ -21,6 +23,8 @@ header{
     border-radius: 0.2rem;
     margin-bottom: 2vh;
 }
+
+
 
 /*a:visited {*/
 /*    color: black !important;*/
@@ -111,12 +115,8 @@ main{
     background-color: #E3DBDB;
     width: 100%;
     border-radius: 0.2rem;
+    flex: 1;
 }
-
-
-
-
-
 
 /* coaches page */
 
@@ -712,4 +712,42 @@ button:hover{
 
 #coach-page-cont a:hover{
     color: #795663;
+}
+
+
+/*footer*/
+
+footer{
+    justify-self: flex-end;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    background: #E3DBDB;
+    align-items: flex-start;
+    border-radius: 0.2rem;
+    margin-top: 2vh;
+}
+
+footer ul{
+    padding: 0 1vw;
+}
+
+
+
+
+/*main*/
+
+#main-cont{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#main-cont h1{
+    font-size: 5rem;
+    margin-bottom: 1vh;
+}
+
+#main-cont h2{
+    font-size: 3rem;
 }
