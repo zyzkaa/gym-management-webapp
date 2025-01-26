@@ -1,6 +1,9 @@
+import os.path
 from dataclasses import field
 
+from PIL import Image
 from django import forms
+from django.conf import settings
 from django.contrib.auth import validators
 from django.contrib.auth.password_validation import validate_password
 from django.forms import ModelForm, TextInput
@@ -36,7 +39,6 @@ class ClientRegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['gender'].choices = delete_null_choice(self.fields['gender'].choices)
-        print(type(self.fields['gender'].choices))
 
 
 class UserEditFrom(forms.ModelForm):
@@ -48,6 +50,25 @@ class UserEditFrom(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.help_text = None
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        picture = self.cleaned_data['profile_picture']
+        if picture:
+            picture_new = Image.open(picture)
+            width, height = picture_new.size
+            min_param = min(width, height)
+            left = (width - min_param) / 2
+            right = width - left
+            top = (height - min_param) / 2
+            bottom = height - top
+            picture_new = picture_new.crop((left, top, right, bottom))
+            new_path = 'profile_pictures/user_' + str(user.id) + '.webp'
+            picture_new.save(os.path.join(settings.MEDIA_ROOT, new_path), format='WEBP')
+            user.profile_picture = new_path
+        if commit:
+            user.save()
+        return user
 
 
 class CoachEditForm(UserEditFrom):

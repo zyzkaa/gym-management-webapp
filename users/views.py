@@ -11,10 +11,6 @@ from django.template.context_processors import request
 from users.models import User, Visit, Coach
 from memberships.models import Membership, Payment
 from django.contrib.auth import login, logout
-
-# dodaj wizyty, moze jakis qr kod?
-# moze laczenie z zegarkami czy cos do treningow
-
 from users.forms import ClientRegisterForm, UserEditFrom, CoachEditForm
 from workout.models import Workout
 
@@ -31,7 +27,7 @@ def register(request):
             form.save()
             user = User.objects.get(username=username)
             login(request, user)
-            return redirect('/users/memberships')
+            return redirect('memberships:show_memberships')
         else:
             error = form.errors
             return HttpResponse('error' + str(error))
@@ -105,6 +101,7 @@ def coach_info(request, coach_id):
     except User.DoesNotExist:
         return HttpResponse('no such user')
 
+@login_required
 def edit_info(request):
     user = request.user
     context = {
@@ -128,7 +125,7 @@ def edit_info(request):
     else:
         context['form'] = UserEditFrom(instance=request.user)
         if request.method == 'POST':
-            form = UserEditFrom(request.POST, instance=request.user)
+            form = UserEditFrom(request.POST, request.FILES, instance=request.user)
             form.save()
             return redirect('users:current_profile')
     return render(request, 'users/form.html', context)
