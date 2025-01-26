@@ -20,6 +20,7 @@ def get_workout_button(user, workout):
         result['url'] = reverse('workout:leave_workout') + f"?workout_id={workout.id}"
         return result
     elif (workout.client.count() == workout.max_participants
+          or user.client.membership is None
           or (user.client.membership.name != 'premium' and user.client_workouts.count() == 1)):
         result['class'] += (' button-locked')
         result['name'] = 'join'
