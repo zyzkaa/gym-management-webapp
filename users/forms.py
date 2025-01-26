@@ -3,7 +3,7 @@ from dataclasses import field
 from django import forms
 from django.contrib.auth import validators
 from django.contrib.auth.password_validation import validate_password
-from django.forms import ModelForm
+from django.forms import ModelForm, TextInput
 
 from users.models import User, Client
 from utils import delete_null_choice
@@ -20,7 +20,7 @@ class ClientRegisterForm(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password', 'gender']
         widgets = {
-            'gender': forms.RadioSelect(attrs={'class': 'custom'}),
+            'gender': forms.Select(attrs={'class': 'form-control'}),
         }
 
     def save(self, commit=True):
@@ -44,31 +44,14 @@ class UserEditFrom(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'profile_picture']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.help_text = None
+
+
 class CoachEditForm(UserEditFrom):
     hourly_rate = forms.DecimalField(max_digits=5, decimal_places=2)
     description = forms.CharField(widget=forms.Textarea)
-    phone_number = forms.CharField(widget=forms.Textarea)
+    phone_number = forms.CharField(widget=forms.TextInput)
 
-# do wyjebania
-# class PaymentForm(forms.ModelForm):
-#     class Meta:
-#         model = Payment
-#         fields = ['method']
-#         widgets = {
-#             'method': forms.RadioSelect(),
-#         }
-#
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.fields['method'].choices = delete_null_choice(self.fields['method'].choices)
-
-# class ClientLoginForm(forms.ModelForm):
-#     class Meta:
-#         fields = ['first_name', 'last_name', 'username', 'email', 'password']
-#
-#     def save(self, commit=True):
-#         user = super().save(commit)
-#         user.set_password(self.cleaned_data['password'])
-#         client = Client.objects.create(user=user)
-#         client.save()
-#         return client

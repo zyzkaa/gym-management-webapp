@@ -31,7 +31,8 @@ def add_workout(request):
 
 def schedule(request):
     context = {
-        'workouts': Workout.objects.all().order_by('start_time').values(),
+        'workouts': Workout.objects.all(),
+        # 'workouts': Workout.objects.all().order_by('start_time').values(),
         'weekdays': Workout.Weekdays.choices
     }
     return render(request, "workout/schedule.html", context)
@@ -75,6 +76,9 @@ def delete_workout(request):
         return HttpResponse('no such workout')
 
 def edit_workout(request):
+    context = {
+        'title': 'edit workout',
+    }
     workout_id = request.GET.get('workout_id')
     workout = Workout.objects.get(id=workout_id)
     if workout.coach != request.user:
@@ -83,8 +87,8 @@ def edit_workout(request):
         form = AddWorkoutForm(request.POST, instance=workout)
         form.save()
         return redirect("users:current_profile")
-    form = AddWorkoutForm(instance=workout)
-    return render(request, "workout/add.html", {'form': form})
+    context['form'] = AddWorkoutForm(instance=workout)
+    return render(request, "users/form.html", context)
 
 def details_workout(request, workout_id):
     try:

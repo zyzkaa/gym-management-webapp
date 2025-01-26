@@ -1,20 +1,23 @@
 {% extends 'core/index.html' %}
 {% block content %}
 
-{%include 'users/user_info.html'%}
-{%block user_info%}
-{%endblock%}
+<div id="profile-cont">
+    {%include 'users/user_info.html'%}
+    <div class="profile-info-cont" id="profile-info-cont-coach">
+       <h2>my workouts:</h2>
+        {% for workout in workouts %}
+        <div class="workout-buttons">
+            <a href="{% url 'workout:details_workout' workout.id%}" >{{workout.name}} <br></a>
+            <a href="{% url 'workout:delete_workout'%}?workout_id={{workout.id}}">delete</a>
+            <a href="{%url 'workout:edit_workout'%}?workout_id={{workout.id}}">edit</a>
+        </div>
+        {% endfor %}
+        <a href="{% url 'workout:add_workout'%}">add</a>
+    </div>
+</div>
 
-<h2>my workouts:</h2>
-{% for workout in workouts %}
-<a href="{% url 'workout:details_workout' workout.id%}" >{{workout.name}}</a>
-<a href="{% url 'workout:delete_workout'%}?workout_id={{workout.id}}">delete</a>
-<a href="{%url 'workout:edit_workout'%}?workout_id={{workout.id}}">edit</a>
-<a href="">cancel next one</a>
-{% endfor %}
-<a href="{% url 'workout:add_workout'%}">add</a>
 
-<h2>my personal coachings:???</h2>
+<!--<h2>my personal coachings:???</h2>-->
 
 
 {% endblock %}
