@@ -66,8 +66,10 @@ def cancel_membership(request):
     user = request.user
     user.client.membership = None
     user.client.save()
-    payments = Payment.objects.filter(client=user).filter(status='scheduled')
-    for payment in payments:
+    for workout in user.client_workouts.all():
+        workout.client.remove(user)
+    for payment in Payment.objects.filter(client=user).filter(status='scheduled'):
         payment.status = 'cancelled'
         payment.save()
+
     return redirect('users:current_profile')

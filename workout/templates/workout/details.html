@@ -1,38 +1,36 @@
 {% extends 'core/index.html' %}
 {% block content %}
 
-{{workout.name}}
+<div id="workout-details-cont">
+    <div id="workout-details-info">
+        <h1>{{workout.name}}</h1>
+        <a href="{% url 'users:coach_info' workout.coach.id %}">
+        <h2>{{workout.coach.first_name}} {{workout.coach.last_name}}</h2>
+        </a>
+        <p>target: {{workout.target}} </p>
+        <p>difficulty: {{workout.difficulty}} </p>
+        <p>{{workout.day}} {{workout.start_time|date:"h:i a"}}-{{workout.start_time|date:"h:i a"}}</p>
 
-<a href="{% url 'users:coach_info' workout.coach.id %}">
-    {{workout.coach.first_name}}
-    {{workout.coach.last_name}}
-</a>
+        {%load workout_tags%}
+        {% if request.user.is_authenticated%}
+            {%get_workout_button request.user workout as button%}
+            <a class="{{button.class}}" href="{{button.url}}">{{button.name}}</a>
+        {%endif%}
+    </div>
 
-{% if request.user.is_coach %}
-<a>edit</a>
-<!--dodaj link-->
-{% endif %}
+    <p id="workout-details-desc">{{workout.description}} </p>
 
-
-<p>{{workout.description}} </p>
-<p>{{workout.target}} </p>
-<p>{{workout.difficulty}} </p>
-<p>{{workout.day}} </p>
-<p>{{workout.start_time}} </p>
-<p>{{workout.end_time}} </p>
-
-
-{% if request.user.is_coach %}
-{% for participant in workout.client.all%}
-<p>{{participant.username}}</p>
-<a href="{% url 'workout:remove_client'%}?workout_id={{workout.id}}&client_id={{participant.id}}">remove</a>
-{% endfor %}
-{% endif %}
-
-{% if not request.user.is_coach%}
-<a class="{% if request.user.client.membership == null %} button-locked {% elif request.user in workout.client.all %} button-done {% elif workout.max_participants > workout.client.all|length %} button-normal {% else %} button-locked {% endif %}"
-                       href="{% url 'workout:join_workout' %}?workout_id={{ workout.id }}"> join </a>
-{% endif %}
-
+    {% if request.user == workout.coach %}
+    <div id="workout-participants">
+        <h3>Participants</h3>
+        {% for participant in workout.client.all%}
+        <div class="participant-cont">
+            <p>{{participant.first_name}} {{participant.last_name}}</p>
+            <a href="{% url 'workout:remove_client'%}?workout_id={{workout.id}}&client_id={{participant.id}}">remove</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
 
 {% endblock %}
