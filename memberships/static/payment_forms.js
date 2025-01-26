@@ -61,6 +61,10 @@ function showButton(){
 
 let form
 function confirmPayment(){
+    if(!form.checkValidity()){
+        event.preventDefault();
+        return;
+    }
     button.disabled = true;
     let dots = ''
 
