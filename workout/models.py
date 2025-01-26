@@ -49,21 +49,21 @@ class Workout(models.Model):
 
 
 
-class Room(models.Model):
-    name = models.CharField(max_length=100)
-
-class WorkoutParticipation(models.Model):
-    workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    date = models.DateField()
-
-    class Status(models.TextChoices):
-        SCHEDULED = 'scheduled', 'Scheduled'
-        COMPLETED = 'completed', 'Completed'
-        CANCELED = 'canceled', 'Canceled'
-
-    status = models.CharField(
-        choices=Status.choices,
-        default=Status.SCHEDULED,
-        max_length=10,
-    )
+# class Room(models.Model):
+#     name = models.CharField(max_length=100)
+#
+# class WorkoutParticipation(models.Model):
+#     workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
+#     client = models.ForeignKey(Client, on_delete=models.CASCADE)
+#     date = models.DateField()
+#
+#     class Status(models.TextChoices):
+#         SCHEDULED = 'scheduled', 'Scheduled'
+#         COMPLETED = 'completed', 'Completed'
+#         CANCELED = 'canceled', 'Canceled'
+#
+#     status = models.CharField(
+#         choices=Status.choices,
+#         default=Status.SCHEDULED,
+#         max_length=10,
+#     )

@@ -26,6 +26,10 @@ header{
 /*    color: black !important;*/
 /*}*/
 
+a{
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 a:hover{
     cursor: pointer;
 }
@@ -40,15 +44,24 @@ a{
 }
 
 .button-normal{
-    background-color: pink;
+    background-color: #5F7367;
 }
 
 .button-locked{
     background-color:grey;
+    pointer-events: none;
+}
+
+.button-locked:hover{
+    cursor: default;
 }
 
 .button-done{
     background-color: mediumpurple;
+}
+
+.button-normal, .button-done, .button-locked{
+    border-radius: 0.3rem;
 }
 
 #nav-container a{
@@ -84,7 +97,6 @@ a{
     background: whitesmoke;
     border: 0.2rem solid whitesmoke;
     border-radius: 0.5rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
     margin: 0 0 0 3%;
     padding: 0 0.6vw;
     font-size: large;
@@ -344,6 +356,8 @@ main{
 
 #profile-workouts{
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 #profile-membership{
@@ -492,6 +506,71 @@ input[type='time']{
 
 input[type='submit']{
     margin-top: 3vh !important;
+}
+
+
+
+
+
+
+
+/*workout details*/
+#workout-details-cont{
+    justify-self: center;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 2vh;
+}
+
+#workout-details-info, #workout-details-desc{
+    width: 30%;
+    padding: 1vh;
+}
+
+#workout-details-info h1{
+    font-size: 2.5rem;
+}
+
+#workout-details-info p{
+    font-size: 1.7rem;
+}
+
+#workout-details-info a:hover{
+    color: #5F7367;
+}
+
+.details-button{
+    font-size: 1.5rem;
+    padding: 0.3rem 0.7rem;
+}
+
+.details-button:hover{
+    color: #E3DBDB !important;
+}
+
+#workout-participants{
+    padding: 2.5vh;
+}
+
+#workout-participants a, #workout-participants p{
+    font-size: 1.2rem;
+}
+
+#workout-participants a:hover{
+    color: #5F7367;
+}
+
+#workout-participants h3{
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.participant-cont{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 2vh;
 }
 
 
