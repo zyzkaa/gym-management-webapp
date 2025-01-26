@@ -1,24 +1,24 @@
 {% extends 'core/index.html' %}
 {% block content %}
+<div id="coach-page-cont">
+    <img alt="profile_picture" src="{{coach.profile_picture.url}}">
 
-<img alt="profile_picture" src="{{coach.profile_picture.url}}">
-<div>
-    <p>{{coach.first_name}}</p>
-    <p>{{coach.last_name}}</p>
-    <p>{{coach.email}}</p>
-    <p>{{coach.coach.phone_number}}</p>
+    <div>
+        <h1>{{coach.first_name}} {{coach.last_name}}</h1>
+        <h1>{{coach.email}}</h1>
+        <h1>{{coach.coach.phone_number}}</h1>
+    </div>
+
+    <p id="coach-page-desc">{{coach.coach.description}}</p>
+
+    <div id="coach-page-workouts">
+        <h2>Workouts</h2>
+        {% for workout in workouts %}
+        <h3>{{workout.name}}</h3>
+        <a href="{% url 'workout:details_workout' workout.id%}" >details</a>
+        {% endfor %}
+    </div>
 </div>
-<p>{{coach.coach.description}}</p>
-
-
-{% for workout in workouts %}
-<h3>{{workout.name}}</h3>
-<a href="{% url 'workout:details_workout' workout.id%}" >details</a>
-{% endfor %}
-
-{% if request.user.is_authenticated and not request.user.id_coach %}
-<a>request 1 on 1 coaching</a>
-{% endif %}
 
 
 {% endblock %}
