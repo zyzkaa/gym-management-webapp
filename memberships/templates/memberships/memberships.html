@@ -17,7 +17,7 @@
                 </ul>
             </div>
             {% if user.is_authenticated and not user.is_coach and request.user.client.membership.id != membership.id %}
-            <a onclick="showPayment(event, '{{membership.id}}')" class="get-button" href="{% url 'memberships:payment' membership_id=membership.id%}">{% if request.user.client.membership is null%}get{% else %}change{%endif%}</a>
+            <a onclick="showPayment(event, '{{membership.id}}')" class="get-button" href="">{% if request.user.client.membership is null%}get{% else %}change{%endif%}</a>
             {% endif %}
         </form>
         {% endfor %}

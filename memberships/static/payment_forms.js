@@ -65,6 +65,7 @@ function confirmPayment(){
         event.preventDefault();
         return;
     }
+
     button.disabled = true;
     let dots = ''
 

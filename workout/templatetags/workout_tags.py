@@ -14,6 +14,9 @@ def get_workout_button(user, workout):
         result['class'] += (' button-normal')
         result['url'] = reverse('workout:edit_workout') + f"?workout_id={workout.id}"
         return result
+    elif user.is_coach:
+        result['class'] += (' button-hidden')
+        return result
     elif user in workout.client.all():
         result['name'] = 'leave'
         result['class'] += (' button-normal')

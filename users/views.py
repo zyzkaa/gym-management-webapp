@@ -1,15 +1,8 @@
-from lib2to3.fixes.fix_input import context
-from time import strftime
-from unicodedata import category
-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from django.template.context_processors import request
-
-from users.models import User, Visit, Coach
-from memberships.models import Membership, Payment
+from users.models import User, Visit
 from django.contrib.auth import login, logout
 from users.forms import ClientRegisterForm, UserEditFrom, CoachEditForm
 from workout.models import Workout
@@ -28,10 +21,6 @@ def register(request):
             user = User.objects.get(username=username)
             login(request, user)
             return redirect('memberships:show_memberships')
-        else:
-            error = form.errors
-            return HttpResponse('error' + str(error))
-
     context['form'] = form
     return render(request, 'users/form.html', context)
 
@@ -64,7 +53,6 @@ def current_profile(request):
     }
     if user.is_coach:
         workouts = Workout.objects.filter(coach=user).filter(status='active')
-        #workouts = Workout.objects.filter(coach=user)
         context['workouts'] = workouts
         return render(request, 'users/coach_profile.html', context)
     else:
@@ -115,7 +103,7 @@ def edit_info(request):
         }
         context['form'] = CoachEditForm(instance=request.user, initial=data)
         if request.method == 'POST':
-            form = CoachEditForm(request.POST, instance=user, initial=data)
+            form = CoachEditForm(request.POST, request.FILES, instance=user, initial=data)
             form.save()
             for name, value in data.items():
                 if form.cleaned_data[name] != value:

@@ -29,10 +29,11 @@ class AddWorkoutForm(forms.ModelForm):
 
         workouts = Workout.objects.filter(day=day)
         for workout in workouts:
-            if (workout.start_time < start_time < workout.end_time
+            if (workout.start_time <= start_time < workout.end_time
                 or workout.start_time < end_time < workout.end_time
             or start_time < time(6,0)
             or end_time > time(22, 0)
+            or start_time == end_time
             or (end_time.hour - start_time.hour) > 1):
                 raise forms.ValidationError("This time is not available")
 

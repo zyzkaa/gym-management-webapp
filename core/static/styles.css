@@ -51,6 +51,10 @@ a{
     background-color: #5F7367;
 }
 
+.button-hidden{
+    display: none;
+}
+
 .button-locked{
     background-color:grey;
     pointer-events: none;
@@ -312,13 +316,13 @@ main{
     margin-right: 1rem;
     width: 50%;
     border-radius: 1.5%;
+    object-fit: contain;
 }
 
 #user-info-par{
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    width: 100%;
     align-items: flex-start;
 }
 
@@ -430,7 +434,7 @@ main{
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50%;
+    width: 70%;
 }
 
 .form-horizontal div{
@@ -447,7 +451,7 @@ main{
 
 .form-horizontal label{
     font-weight: 500;
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-bottom: 0.8vh;
 }
 
@@ -457,7 +461,7 @@ main{
     background: whitesmoke;
     border: 0.2rem solid whitesmoke;
     border-radius: 0.3rem;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     padding: 0.2rem;
 }
 
@@ -467,8 +471,20 @@ textarea, select{
     border-radius: 0.3rem;
 }
 
+textarea{
+    width: 50%;
+}
+
+input[type='file']{
+    font-size: 0.2rem;
+}
+
+input[type='number']{
+    width: 20%;
+}
+
 select{
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     margin-bottom: 1vh;
 }
 
@@ -498,16 +514,16 @@ select{
 #id_profile_picture{
     background-color: transparent;
     border: none;
-    font-size: 1.2rem;
+    font-size: 0.9rem;
 }
 
 #id_description{
-    font: 500 1.5rem "Raleway", serif;
+    font: 500 1.2rem "Raleway", serif;
     margin-bottom: 1vh;
 }
 
 input[type='time']{
-    font: 500 1.5rem "Raleway", serif;
+    font: 500 1.3rem "Raleway", serif;
 }
 
 input[type='submit']{

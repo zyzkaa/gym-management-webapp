@@ -13,9 +13,8 @@ from utils import delete_null_choice
 
 
 class ClientRegisterForm(forms.ModelForm):
-    # password = forms.CharField(widget=forms.PasswordInput(),
-    #                            validators=[validate_password])
-    password = forms.CharField(widget=forms.PasswordInput())
+    password = forms.CharField(widget=forms.PasswordInput(),
+                               validators=[validate_password])
     username = forms.CharField(max_length=20,
                                validators=[validators.UnicodeUsernameValidator()],
                                error_messages={'unique': 'user with that username already exists'})
